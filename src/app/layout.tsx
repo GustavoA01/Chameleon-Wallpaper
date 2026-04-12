@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/src/lib/utils";
+import { Header } from "../components/Header";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -45,11 +46,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col dark">
-        <header className="bg-primary">
-          <div className="container mx-auto px-4 py-4">
-            <h1 className="text-lg font-montserrat font-bold">Chameleon</h1>
-          </div>
-        </header>
+        <Header />
         {children}
       </body>
     </html>
