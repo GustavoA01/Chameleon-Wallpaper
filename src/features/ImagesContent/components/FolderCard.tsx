@@ -1,12 +1,12 @@
-import { Badge } from "@/src/components/ui/badge";
+import { Badge } from '@/src/components/ui/badge';
 import {
   Card,
   CardAction,
   CardHeader,
   CardTitle,
-} from "@/src/components/ui/card";
-import { Folder } from "lucide-react";
-import Link from "next/link";
+} from '@/src/components/ui/card';
+import { Folder } from 'lucide-react';
+import Link from 'next/link';
 
 export const FolderCard = () => (
   <Link href="#">

@@ -1,47 +1,47 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, Montserrat } from "next/font/google";
-import "./globals.css";
-import { cn } from "@/src/lib/utils";
-import { Header } from "../components/Header";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono, Inter, Montserrat } from 'next/font/google';
+import './globals.css';
+import { cn } from '@/src/lib/utils';
+import { Header } from '../components/Header';
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 const montserratVariable = Montserrat({
-  subsets: ["latin"],
-  variable: "--font-montserrat",
+  subsets: ['latin'],
+  variable: '--font-montserrat',
 });
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "Chameleon",
-  description: "Muda o wallpaper do computador de acordo com o tempo definido",
+  title: 'Chameleon',
+  description: 'Muda o wallpaper do computador de acordo com o tempo definido',
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
   return (
     <html
       lang="en"
       className={cn(
-        "h-full",
-        "antialiased",
+        'h-full',
+        'antialiased',
         geistSans.variable,
         geistMono.variable,
         montserratVariable.variable,
-        "font-sans",
-        inter.variable,
+        'font-sans',
+        inter.variable
       )}
       suppressHydrationWarning
     >
@@ -51,4 +51,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

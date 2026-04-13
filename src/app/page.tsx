@@ -1,17 +1,19 @@
-import { HomeTabs } from "../components/HomeTabs";
-import { ImagesContent } from "../features/ImagesContent/container";
+import { HomeTabs } from '../components/HomeTabs';
+import { DevicesContent } from '../features/DevicesContent/container';
+import { ImagesContent } from '../features/ImagesContent/container';
 
 const Home = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ tab: string | null }>;
+  searchParams: Promise<{ tab: string | undefined }>;
 }) => {
   const { tab } = await searchParams;
+  const selectTab = tab || 'images';
 
   return (
     <div className="container mx-auto px-4 py-8">
       <HomeTabs />
-      {tab === "images" || null ? <ImagesContent /> : <div>Dispositivos</div>}
+      {selectTab === 'images' ? <ImagesContent /> : <DevicesContent />}
     </div>
   );
 };

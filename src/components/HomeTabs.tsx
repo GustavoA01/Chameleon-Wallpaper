@@ -1,17 +1,17 @@
-"use client";
-import { Computer, Image as ImageIcon } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "./ui/button";
+'use client';
+import { Computer, Image as ImageIcon } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Button } from './ui/button';
 
 const tabs = [
   {
-    value: "images",
-    label: "Biblioteca de imagens",
+    value: 'images',
+    label: 'Biblioteca de imagens',
     icon: <ImageIcon />,
   },
   {
-    value: "devices",
-    label: "Dispositivos",
+    value: 'devices',
+    label: 'Dispositivos',
     icon: <Computer />,
   },
 ];
@@ -19,22 +19,22 @@ const tabs = [
 export const HomeTabs = () => {
   const { push } = useRouter();
   const searchParams = useSearchParams();
-  const param = searchParams.get("tab");
+  const activeTab = searchParams.get('tab') || 'images';
 
   const setSearchParams = (tabValue: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("tab", tabValue);
+    params.set('tab', tabValue);
     push(`?${params.toString()}`);
   };
 
   return (
-    <div className="flex items-center space-x-2 mb-8 max-sm:w-full">
+    <div className="grid grid-cols-2 max-sm:w-full sm:flex gap-2 mb-8">
       {tabs.map((tab) => (
         <Button
           key={tab.value}
           variant="ghost"
           onClick={() => setSearchParams(tab.value)}
-          className={` rounded-none ${param === tab.value ? "border-b-primary text-primary" : "text-muted-foreground"}`}
+          className={`rounded-none col-span-1 ${activeTab === tab.value ? 'border-b-primary text-primary' : 'text-muted-foreground'}`}
         >
           {tab.icon}
           {tab.label}
