@@ -7,6 +7,7 @@ import {
 } from '@/src/components/ui/card';
 import { Folder } from 'lucide-react';
 import Link from 'next/link';
+import { FolderActions } from '../container/FolderActions';
 
 export const FolderCard = ({ id }: { id: number }) => (
   <Link href={`/folder/${id}`}>
@@ -28,10 +29,11 @@ export const FolderCard = ({ id }: { id: number }) => (
           </div>
         </div>
 
-        <CardAction>
+        <CardAction className="flex items-center">
           <Badge variant="outline" className="text-muted-foreground rounded-md">
             12 Imagens
           </Badge>
+          <FolderActions />
         </CardAction>
       </CardHeader>
     </Card>
