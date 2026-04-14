@@ -1,3 +1,4 @@
+import { createFolder } from '@/src/actions/createFolder';
 import { LabelInput } from '@/src/components/LabelInput';
 import { FolderFormData, folderSchema } from '@/src/data/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,8 +13,8 @@ export const FolderForm = () => {
     resolver: zodResolver(folderSchema),
   });
 
-  const handleSaveFolder = (data: FolderFormData) => {
-    console.log(data);
+  const handleSaveFolder = async (data: FolderFormData) => {
+    await createFolder(data);
   };
 
   return (
