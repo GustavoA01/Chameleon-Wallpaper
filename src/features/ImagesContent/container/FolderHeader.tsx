@@ -1,7 +1,8 @@
 'use client';
 import { TabHeader } from '@/src/components/TabHeader';
-import { Dialog, DialogContent } from '@/src/components/ui/dialog';
+import { Dialog } from '@/src/components/ui/dialog';
 import { useState } from 'react';
+import { FolderDialogContent } from '../components/FolderDialogContent';
 
 export const FolderHeader = () => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -14,7 +15,7 @@ export const FolderHeader = () => {
         onClick={() => setOpenDialog(true)}
       />
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent>teste pasta</DialogContent>
+        <FolderDialogContent />
       </Dialog>
     </>
   );
