@@ -8,8 +8,8 @@ import {
 import { Folder } from 'lucide-react';
 import Link from 'next/link';
 
-export const FolderCard = () => (
-  <Link href="#">
+export const FolderCard = ({ id }: { id: number }) => (
+  <Link href={`/folder/${id}`}>
     <Card className="group hover:border-primary cursor-pointer border border-transparent transition-all duration-200">
       <CardHeader>
         <div className="flex items-center gap-2">

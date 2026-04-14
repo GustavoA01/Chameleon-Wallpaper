@@ -12,8 +12,9 @@ type LabelInputProps<T extends FieldValues> = {
   placeholder: string;
   name: Path<T>;
   register: UseFormRegister<T>;
-  className?: string;
   errors: FieldErrors<T>;
+  inputType?: string;
+  className?: string;
 };
 
 export const LabelInput = <T extends FieldValues>({
@@ -22,11 +23,12 @@ export const LabelInput = <T extends FieldValues>({
   name,
   register,
   errors,
+  inputType = 'text',
   className,
 }: LabelInputProps<T>) => (
   <div className={`space-y-2 ${className || ''}`}>
     <Label>{label}</Label>
-    <Input placeholder={placeholder} {...register(name)} />
+    <Input type={inputType} placeholder={placeholder} {...register(name)} />
     {errors && (
       <p className="text-sm text-red-500">{errors[name]?.message as string}</p>
     )}

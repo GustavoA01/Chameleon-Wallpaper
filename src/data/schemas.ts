@@ -11,5 +11,11 @@ export const deviceSchema = z.object({
   selectedTime: z.string(),
 });
 
+export const imageSchema = z.object({
+  title: z.string().min(1, 'O título é obrigatório'),
+  file: z.instanceof(File, { message: 'Selecione um arquivo de imagem' }),
+});
+
 export type FolderFormData = z.infer<typeof folderSchema>;
 export type DeviceFormData = z.infer<typeof deviceSchema>;
+export type ImageFormData = z.infer<typeof imageSchema>;
