@@ -8,17 +8,25 @@ import {
 } from '@/src/components/ui/select';
 import { Timer } from 'lucide-react';
 
-export const TimeSelect = () => (
-  <Select>
+type TimeSelectProps = {
+  value: string;
+  onValueChange: (value: string) => void;
+};
+
+export const TimeSelect = ({ value, onValueChange }: TimeSelectProps) => (
+  <Select value={value} onValueChange={onValueChange}>
     <SelectTrigger>
       <SelectValue placeholder={<Timer />} />
     </SelectTrigger>
     <SelectContent>
       <SelectGroup>
-        <SelectItem value="horario1">30min</SelectItem>
-        <SelectItem value="horario2">1h</SelectItem>
-        <SelectItem value="horario2">1h e 30min</SelectItem>
-        <SelectItem value="horario3">2h</SelectItem>
+        <SelectItem value="900">15 min</SelectItem>
+        <SelectItem value="1800">30 min</SelectItem>
+        <SelectItem value="3600">1 h</SelectItem>
+        <SelectItem value="10800">3 h</SelectItem>
+        <SelectItem value="21600">6 h</SelectItem>
+        <SelectItem value="43200">12 h</SelectItem>
+        <SelectItem value="86400">24 h</SelectItem>
       </SelectGroup>
     </SelectContent>
   </Select>

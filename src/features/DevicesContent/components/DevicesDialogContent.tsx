@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/src/components/ui/dialog';
+import { DeviceForm } from '../container/DeviceForm';
 
 export const DevicesDialogContent = () => (
   <DialogContent>
@@ -16,7 +17,7 @@ export const DevicesDialogContent = () => (
         Adicione um novo dispositivo para vincular a seus papéis de parede
       </DialogDescription>
     </DialogHeader>
-
+    <DeviceForm />
     <DialogFooter>
       <DialogClose asChild>
         <Button variant="outline">Cancelar</Button>

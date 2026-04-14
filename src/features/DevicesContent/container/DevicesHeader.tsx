@@ -1,6 +1,7 @@
 'use client';
+import { DevicesDialogContent } from '../components/DevicesDialogContent';
 import { TabHeader } from '@/src/components/TabHeader';
-import { Dialog, DialogContent } from '@/src/components/ui/dialog';
+import { Dialog } from '@/src/components/ui/dialog';
 import { useState } from 'react';
 
 export const DevicesHeader = () => {
@@ -14,7 +15,7 @@ export const DevicesHeader = () => {
         onClick={() => setOpenDialog(true)}
       />
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent>teste</DialogContent>
+        <DevicesDialogContent />
       </Dialog>
     </>
   );

@@ -8,8 +8,13 @@ import {
 } from '@/src/components/ui/select';
 import { Folder } from 'lucide-react';
 
-export const FolderSelect = () => (
-  <Select>
+type FolderSelectProps = {
+  value?: string;
+  onValueChange?: (value: string) => void;
+};
+
+export const FolderSelect = ({ value, onValueChange }: FolderSelectProps) => (
+  <Select value={value} onValueChange={onValueChange}>
     <SelectTrigger>
       <SelectValue placeholder={<Folder />} />
     </SelectTrigger>
