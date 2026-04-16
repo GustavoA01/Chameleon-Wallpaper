@@ -1,15 +1,23 @@
 import { Badge } from '@/src/components/ui/badge';
+import { Folder } from 'lucide-react';
+import Link from 'next/link';
+import { FolderActions } from '../container/FolderActions';
+import { FolderType } from '@/src/data/types';
 import {
   Card,
   CardAction,
   CardHeader,
   CardTitle,
 } from '@/src/components/ui/card';
-import { Folder } from 'lucide-react';
-import Link from 'next/link';
-import { FolderActions } from '../container/FolderActions';
 
-export const FolderCard = ({ id }: { id: number }) => (
+type FolderCardProps = Omit<FolderType, 'images'>;
+
+export const FolderCard = ({
+  id,
+  name,
+  description,
+  imageCount,
+}: FolderCardProps) => (
   <Link href={`/folder/${id}`}>
     <Card className="group hover:border-primary cursor-pointer border border-transparent transition-all duration-200">
       <CardHeader>
@@ -20,18 +28,18 @@ export const FolderCard = ({ id }: { id: number }) => (
 
           <div>
             <CardTitle className="font-montserrat line-clamp-1 group-hover:text-primary transition-all duration-200">
-              <h1>Natureza</h1>
+              <h1>{name}</h1>
             </CardTitle>
 
             <p className="text-muted-foreground text-sm line-clamp-1">
-              Imagens da natureza
+              {description}
             </p>
           </div>
         </div>
 
         <CardAction className="flex items-center">
           <Badge variant="outline" className="text-muted-foreground rounded-md">
-            12 Imagens
+            {imageCount} Imagens
           </Badge>
           <FolderActions />
         </CardAction>

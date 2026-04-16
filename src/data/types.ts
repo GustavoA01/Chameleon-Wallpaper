@@ -1,22 +1,22 @@
-export interface Folder {
+export interface FolderType {
   id: string;
   name: string;
   description: string;
   imageCount: number;
-  images: Image[];
+  images: ImageType[];
 }
 
-export interface Image {
+export interface ImageType {
   id: string;
   title: string;
   url: string;
-  folderId: Folder['id'];
+  folderId: FolderType['id'];
 }
 
-export interface Device {
+export interface DeviceType {
   id: string;
   name: string;
   isActive: boolean;
   selectedTime: number;
-  selectedFolderId: Folder['id'];
+  selectedFolderId: FolderType['id'];
 }

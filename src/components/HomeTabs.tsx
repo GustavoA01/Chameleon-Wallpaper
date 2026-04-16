@@ -1,20 +1,7 @@
 'use client';
-import { Computer, Image as ImageIcon } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from './ui/button';
-
-const tabs = [
-  {
-    value: 'images',
-    label: 'Biblioteca de imagens',
-    icon: <ImageIcon />,
-  },
-  {
-    value: 'devices',
-    label: 'Dispositivos',
-    icon: <Computer />,
-  },
-];
+import { tabs } from '../data/constants';
 
 export const HomeTabs = () => {
   const { push } = useRouter();
@@ -36,7 +23,7 @@ export const HomeTabs = () => {
           onClick={() => setSearchParams(tab.value)}
           className={`rounded-none col-span-1 ${activeTab === tab.value ? 'border-b-primary text-primary' : 'text-muted-foreground'}`}
         >
-          {tab.icon}
+          {<tab.icon />}
           {tab.label}
         </Button>
       ))}

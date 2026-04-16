@@ -5,8 +5,7 @@ const FolderPage = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <DetailsHeader />
-
+      <DetailsHeader title="Vacation Photos" />
       <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 ">
         <div></div>
       </main>
