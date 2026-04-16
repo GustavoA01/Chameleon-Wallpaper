@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+model Folder {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  
+  images      Image[]
+  devices     Device[]
+}
+
+model Image {
+  id       String @id @default(uuid())
+  title    String
+  url      String
+  folderId String
+  folder   Folder @relation(fields: [folderId], references: [id], onDelete: Cascade)
+}
+
+model Device {
+  id               String  @id @default(uuid())
+  name             String
+  isActive         Boolean @default(true)
+  intervalSeconds  Int     @default(3600)
+  
+  selectedFolderId String
+  selectedFolder   Folder  @relation(fields: [selectedFolderId], references: [id])
+}
