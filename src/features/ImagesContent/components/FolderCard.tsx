@@ -23,7 +23,7 @@ export const FolderCard = ({
       <CardHeader>
         <div className="flex items-center gap-2">
           <div className="p-2 rounded-md bg-muted group-hover:bg-primary/10">
-            <Folder size={15} />
+            <Folder size={20} />
           </div>
 
           <div>
@@ -37,7 +37,7 @@ export const FolderCard = ({
           </div>
         </div>
 
-        <CardAction className="flex items-center">
+        <CardAction className="flex items-center gap-2">
           <Badge variant="outline" className="text-muted-foreground rounded-md">
             {imageCount} Imagens
           </Badge>
