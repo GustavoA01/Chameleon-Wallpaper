@@ -8,13 +8,18 @@ import { useDeviceForm } from '../hooks/useDeviceForm';
 import { FolderType } from '@/src/data/types';
 
 type DeviceFormProps = {
+  id?: string;
   folders: Omit<FolderType, 'images'>[];
   setIsDialogOpen: (open: boolean) => void;
 };
 
-export const DeviceForm = ({ folders, setIsDialogOpen }: DeviceFormProps) => {
+export const DeviceForm = ({
+  id,
+  folders,
+  setIsDialogOpen,
+}: DeviceFormProps) => {
   const { handleSaveDevice, control, handleSubmit, register, errors } =
-    useDeviceForm(setIsDialogOpen);
+    useDeviceForm(id, setIsDialogOpen);
 
   return (
     <form id="devices-form" onSubmit={handleSubmit(handleSaveDevice)}>

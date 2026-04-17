@@ -11,11 +11,13 @@ import { DeviceForm } from '../container/DeviceForm';
 import { FolderType } from '@/src/data/types';
 
 type DevicesDialogContentProps = {
+  id?: string;
   folders: Omit<FolderType, 'images'>[];
   setIsDialogOpen: (open: boolean) => void;
 };
 
 export const DevicesDialogContent = ({
+  id,
   folders,
   setIsDialogOpen,
 }: DevicesDialogContentProps) => (
@@ -26,7 +28,7 @@ export const DevicesDialogContent = ({
         Adicione um novo dispositivo para vincular a seus papéis de parede
       </DialogDescription>
     </DialogHeader>
-    <DeviceForm folders={folders} setIsDialogOpen={setIsDialogOpen} />
+    <DeviceForm id={id} folders={folders} setIsDialogOpen={setIsDialogOpen} />
     <DialogFooter>
       <DialogClose asChild>
         <Button variant="outline">Cancelar</Button>

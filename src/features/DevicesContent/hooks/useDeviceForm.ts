@@ -3,14 +3,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useDeviceMutation } from './useDeviceMutation';
 import { DeviceType } from '@/src/data/types';
+import { useFetchDevice } from './useFetchDevice';
 
-export const useDeviceForm = (setIsDialogOpen: (open: boolean) => void) => {
-  const { createDeviceFn } = useDeviceMutation(setIsDialogOpen);
+export const useDeviceForm = (
+  id: string | undefined,
+  setIsDialogOpen: (open: boolean) => void
+) => {
   const methods = useForm<DeviceFormData>({
     resolver: zodResolver(deviceSchema),
   });
+  const { createDeviceFn, updateDeviceFn } = useDeviceMutation(setIsDialogOpen);
+  useFetchDevice(methods, id);
 
-  const handleSaveDevice = (data: DeviceFormData) => {
+  const handleSaveDevice = async (data: DeviceFormData) => {
     const newDevice: Pick<
       DeviceType,
       'name' | 'intervalSeconds' | 'selectedFolderId'
@@ -19,7 +24,8 @@ export const useDeviceForm = (setIsDialogOpen: (open: boolean) => void) => {
       intervalSeconds: Number(data.intervalSeconds),
     };
 
-    createDeviceFn(newDevice);
+    if (id) await updateDeviceFn({ id, data: newDevice });
+    else await createDeviceFn(newDevice);
   };
 
   return {

@@ -1,3 +1,4 @@
+'use server';
 import { FolderType } from '@/src/data/types';
 import { prisma } from '@/src/lib/prisma';
 

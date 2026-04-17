@@ -1,5 +1,7 @@
 import { createDevice } from '@/src/actions/devices/createDevice';
 import { deleteDevice } from '@/src/actions/devices/deleteDevice';
+import { updateDevice } from '@/src/actions/devices/updateDevice';
+import { DeviceFormData } from '@/src/data/schemas';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -18,6 +20,24 @@ export const useDeviceMutation = (
     },
   });
 
+  const { mutateAsync: updateDeviceFn } = useMutation({
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: Omit<DeviceFormData, 'intervalSeconds'>;
+    }) => updateDevice(id, data),
+    onSuccess: () => {
+      if (setIsDialogOpen) setIsDialogOpen(false);
+      toast.success('Dispositivo atualizado');
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error('Erro ao atualizar dispositivo');
+    },
+  });
+
   const { mutateAsync: deleteDeviceFn } = useMutation({
     mutationFn: deleteDevice,
     onSuccess: () => {
@@ -33,5 +53,6 @@ export const useDeviceMutation = (
   return {
     createDeviceFn,
     deleteDeviceFn,
+    updateDeviceFn,
   };
 };

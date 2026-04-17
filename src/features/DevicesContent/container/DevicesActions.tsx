@@ -35,6 +35,7 @@ export const DevicesActions = ({ id, folders }: DevicesActionsProps) => {
 
       <Dialog open={openEditDialog} onOpenChange={setOpenEditDialog}>
         <DevicesDialogContent
+          id={id}
           folders={folders}
           setIsDialogOpen={setOpenEditDialog}
         />

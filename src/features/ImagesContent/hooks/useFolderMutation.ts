@@ -1,5 +1,7 @@
 import { createFolder } from '@/src/actions/folder/createFolder';
 import { deleteFolder } from '@/src/actions/folder/deleteFolder';
+import { updateFolder } from '@/src/actions/folder/updateFolder';
+import { FolderFormData } from '@/src/data/schemas';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -18,6 +20,19 @@ export const useFolderMutation = (
     },
   });
 
+  const { mutateAsync: updateFolderFn } = useMutation({
+    mutationFn: ({ id, data }: { id: string; data: FolderFormData }) =>
+      updateFolder(id, data),
+    onSuccess: () => {
+      setIsDialogOpen?.(false);
+      toast.success('Pasta atualizada');
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error('Erro ao atualizar pasta');
+    },
+  });
+
   const { mutateAsync: deleteFolderFn } = useMutation({
     mutationFn: deleteFolder,
     onSuccess: () => {
@@ -33,5 +48,6 @@ export const useFolderMutation = (
   return {
     createFolderFn,
     deleteFolderFn,
+    updateFolderFn,
   };
 };

@@ -3,12 +3,15 @@ import { FolderFormData } from '@/src/data/schemas';
 import { useFolderForm } from '../hooks/useFolderForm';
 
 type FolderFormProps = {
+  id?: string;
   setIsDialogOpen?: (open: boolean) => void;
 };
 
-export const FolderForm = ({ setIsDialogOpen }: FolderFormProps) => {
-  const { handleSaveFolder, handleSubmit, register, errors } =
-    useFolderForm(setIsDialogOpen);
+export const FolderForm = ({ id, setIsDialogOpen }: FolderFormProps) => {
+  const { handleSaveFolder, handleSubmit, register, errors } = useFolderForm(
+    id,
+    setIsDialogOpen
+  );
 
   return (
     <form
