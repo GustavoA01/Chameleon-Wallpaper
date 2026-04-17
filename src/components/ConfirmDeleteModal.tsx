@@ -8,23 +8,21 @@ import {
   DialogTitle,
 } from '@/src/components/ui/dialog';
 
-type ConfirmFolderDeleteProps = {
-  folderName: string;
+type ConfirmDeleteModalProps = {
+  title: string;
+  description: string;
   onDelete: () => void;
 };
 
-export const ConfirmFolderDelete = ({
-  folderName,
+export const ConfirmDeleteModal = ({
+  title,
+  description,
   onDelete,
-}: ConfirmFolderDeleteProps) => (
+}: ConfirmDeleteModalProps) => (
   <DialogContent>
     <DialogHeader>
-      <DialogTitle>Excluir pasta</DialogTitle>
-      <DialogDescription>
-        Você está prestes a excluir a pasta{' '}
-        <span className="text-foreground font-semibold">{folderName}</span>.
-        Esta ação removerá as imagens dentro da pasta também
-      </DialogDescription>
+      <DialogTitle>{title}</DialogTitle>
+      <DialogDescription>{description}</DialogDescription>
     </DialogHeader>
 
     <DialogFooter>

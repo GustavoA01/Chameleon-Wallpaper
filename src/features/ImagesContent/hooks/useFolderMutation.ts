@@ -3,10 +3,13 @@ import { deleteFolder } from '@/src/actions/folder/deleteFolder';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-export const useFolderMutation = () => {
+export const useFolderMutation = (
+  setIsDialogOpen?: (open: boolean) => void
+) => {
   const { mutateAsync: createFolderFn } = useMutation({
     mutationFn: createFolder,
     onSuccess: () => {
+      setIsDialogOpen?.(false);
       toast.success('Pasta criada');
     },
     onError: (error) => {
@@ -18,6 +21,7 @@ export const useFolderMutation = () => {
   const { mutateAsync: deleteFolderFn } = useMutation({
     mutationFn: deleteFolder,
     onSuccess: () => {
+      setIsDialogOpen?.(false);
       toast.success('Pasta excluída');
     },
     onError: (error) => {

@@ -31,5 +31,5 @@ model Device {
   intervalSeconds  Int     @default(3600)
   
   selectedFolderId String
-  selectedFolder   Folder  @relation(fields: [selectedFolderId], references: [id])
+  selectedFolder   Folder  @relation(fields: [selectedFolderId], references: [id], onDelete: Cascade)
 }

@@ -3,8 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useFolderMutation } from './useFolderMutation';
 
-export const useFolderForm = () => {
-  const { createFolderFn } = useFolderMutation();
+export const useFolderForm = (setIsDialogOpen?: (open: boolean) => void) => {
+  const { createFolderFn } = useFolderMutation(setIsDialogOpen);
   const methods = useForm<FolderFormData>({
     resolver: zodResolver(folderSchema),
   });

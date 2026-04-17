@@ -9,7 +9,13 @@ import {
 } from '@/src/components/ui/dialog';
 import { FolderForm } from '../container/FolderForm';
 
-export const FolderDialogContent = () => (
+type FolderDialogContentProps = {
+  setIsDialogOpen?: (open: boolean) => void;
+};
+
+export const FolderDialogContent = ({
+  setIsDialogOpen,
+}: FolderDialogContentProps) => (
   <DialogContent>
     <DialogHeader>
       <DialogTitle>Criar pasta</DialogTitle>
@@ -17,7 +23,7 @@ export const FolderDialogContent = () => (
         Adicione uma nova pasta para organizar suas imagens
       </DialogDescription>
     </DialogHeader>
-    <FolderForm />
+    <FolderForm setIsDialogOpen={setIsDialogOpen} />
     <DialogFooter>
       <DialogClose asChild>
         <Button variant="outline">Cancelar</Button>

@@ -13,13 +13,18 @@ import { TimeSelect } from './TimeSelect';
 import { Switch } from '@/src/components/ui/switch';
 import { DeviceType, FolderType } from '@/src/data/types';
 import { useState } from 'react';
+import { DevicesActions } from '../container/DevicesActions';
 
-type DeviceCardProps = Omit<
-  DeviceType,
-  'id' | 'selectedFolderId' | 'selectedTime'
-> & { folders: Omit<FolderType, 'images'>[] };
+type DeviceCardProps = Omit<DeviceType, 'selectedFolderId' | 'selectedTime'> & {
+  folders: Omit<FolderType, 'images'>[];
+};
 
-export const DeviceCard = ({ name, isActive, folders }: DeviceCardProps) => {
+export const DeviceCard = ({
+  id,
+  name,
+  isActive,
+  folders,
+}: DeviceCardProps) => {
   const [time, setTime] = useState('900');
 
   return (
@@ -28,6 +33,7 @@ export const DeviceCard = ({ name, isActive, folders }: DeviceCardProps) => {
         <CardTitle>{name}</CardTitle>
         <CardAction className="flex items-center space-x-2">
           <Switch defaultChecked={isActive} />
+          <DevicesActions id={id} folders={folders} />
         </CardAction>
       </CardHeader>
 

@@ -1,42 +1,27 @@
 'use client';
 import { Dialog } from '@/src/components/ui/dialog';
-import { useState } from 'react';
 import { FolderDialogContent } from '../components/FolderDialogContent';
-import { ConfirmFolderDelete } from '../components/ConfirmFolderDelete';
-import { FolderDropDown } from '../components/FolderDropD';
-import { useFolderMutation } from '../hooks/useFolderMutation';
+import { ActionsDropDown } from '../../../components/ActionsDropD';
+import { ConfirmDeleteModal } from '@/src/components/ConfirmDeleteModal';
+import { useFolderActions } from '../hooks/useFolderActions';
 
 export const FolderActions = ({ id }: { id: string }) => {
-  const { deleteFolderFn } = useFolderMutation();
-  const [openDropdown, setOpenDropdown] = useState(false);
-  const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-
-  const onEdit = (e: Event) => {
-    e.preventDefault();
-    setOpenDropdown(false);
-    setOpenEditDialog(true);
-  };
-
-  const onOpenDeleteDialog = (e: Event) => {
-    e.preventDefault();
-    setOpenDropdown(false);
-    setOpenDeleteDialog(true);
-  };
-
-  const onDelete = () => {
-    setOpenDeleteDialog(false);
-    deleteFolderFn(id);
-  };
-
-  const blockPropagation = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-  };
+  const {
+    blockPropagation,
+    onDelete,
+    onEdit,
+    onOpenDeleteDialog,
+    openDeleteDialog,
+    openDropdown,
+    openEditDialog,
+    setOpenDeleteDialog,
+    setOpenDropdown,
+    setOpenEditDialog,
+  } = useFolderActions(id);
 
   return (
     <div onClick={blockPropagation}>
-      <FolderDropDown
+      <ActionsDropDown
         onEdit={onEdit}
         onOpenDeleteDialog={onOpenDeleteDialog}
         openDropdown={openDropdown}
@@ -48,7 +33,11 @@ export const FolderActions = ({ id }: { id: string }) => {
       </Dialog>
 
       <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
-        <ConfirmFolderDelete folderName="teste" onDelete={onDelete} />
+        <ConfirmDeleteModal
+          onDelete={onDelete}
+          title="Excluir pasta"
+          description="Tem certeza que deseja excluir esta pasta? Esta ação removerá as imagens dentro da pasta e os dispositivos ligados a ela também"
+        />
       </Dialog>
     </div>
   );

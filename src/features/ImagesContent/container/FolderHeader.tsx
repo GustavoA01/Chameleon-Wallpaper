@@ -15,7 +15,7 @@ export const FolderHeader = () => {
         onClick={() => setOpenDialog(true)}
       />
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <FolderDialogContent />
+        <FolderDialogContent setIsDialogOpen={setOpenDialog} />
       </Dialog>
     </>
   );

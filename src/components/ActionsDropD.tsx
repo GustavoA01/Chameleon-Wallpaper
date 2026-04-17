@@ -7,19 +7,19 @@ import {
 } from '@/src/components/ui/dropdown-menu';
 import { MoreVertical, Pencil, Trash2 } from 'lucide-react';
 
-type FolderDropDownProps = {
+type ActionsDropDownProps = {
   onEdit: (e: Event) => void;
   onOpenDeleteDialog: (e: Event) => void;
   openDropdown: boolean;
   setOpenDropdown: (open: boolean) => void;
 };
 
-export const FolderDropDown = ({
+export const ActionsDropDown = ({
   onEdit,
   onOpenDeleteDialog,
   openDropdown,
   setOpenDropdown,
-}: FolderDropDownProps) => (
+}: ActionsDropDownProps) => (
   <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown}>
     <DropdownMenuTrigger asChild>
       <Button variant="ghost" size="icon" className="h-8 w-8">

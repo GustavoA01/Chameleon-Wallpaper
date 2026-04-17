@@ -1,18 +1,22 @@
-import { getAllDevices } from '@/src/actions/devices/getAllDevices';
 import { DeviceCard } from '../components/DeviceCard';
 import { DevicesHeader } from './DevicesHeader';
-import { getAllFolders } from '@/src/actions/folder/getAllFolders';
+import { DeviceType, FolderType } from '@/src/data/types';
 
-export const DevicesContent = async () => {
-  const devices = await getAllDevices();
-  const folders = await getAllFolders();
+type DeviceContentProps = {
+  folders: Omit<FolderType, 'images'>[];
+  devices: DeviceType[];
+};
 
+export const DevicesContent = async ({
+  folders,
+  devices,
+}: DeviceContentProps) => {
   return (
     <main>
       <DevicesHeader folders={folders} />
       {devices?.length === 0 ? (
         <p className="text-center text-muted-foreground mt-8">
-          Nenhum dispositivo adicionado
+          Nenhum dispositivo encontrado
         </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">

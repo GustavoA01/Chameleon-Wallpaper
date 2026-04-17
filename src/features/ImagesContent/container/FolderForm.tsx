@@ -2,8 +2,13 @@ import { LabelInput } from '@/src/components/LabelInput';
 import { FolderFormData } from '@/src/data/schemas';
 import { useFolderForm } from '../hooks/useFolderForm';
 
-export const FolderForm = () => {
-  const { handleSaveFolder, handleSubmit, register, errors } = useFolderForm();
+type FolderFormProps = {
+  setIsDialogOpen?: (open: boolean) => void;
+};
+
+export const FolderForm = ({ setIsDialogOpen }: FolderFormProps) => {
+  const { handleSaveFolder, handleSubmit, register, errors } =
+    useFolderForm(setIsDialogOpen);
 
   return (
     <form
