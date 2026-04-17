@@ -2,9 +2,14 @@
 import { DevicesDialogContent } from '../components/DevicesDialogContent';
 import { TabHeader } from '@/src/components/TabHeader';
 import { Dialog } from '@/src/components/ui/dialog';
+import { FolderType } from '@/src/data/types';
 import { useState } from 'react';
 
-export const DevicesHeader = () => {
+export const DevicesHeader = ({
+  folders,
+}: {
+  folders: Omit<FolderType, 'images'>[];
+}) => {
   const [openDialog, setOpenDialog] = useState(false);
 
   return (
@@ -15,7 +20,10 @@ export const DevicesHeader = () => {
         onClick={() => setOpenDialog(true)}
       />
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DevicesDialogContent />
+        <DevicesDialogContent
+          folders={folders}
+          setIsDialogOpen={setOpenDialog}
+        />
       </Dialog>
     </>
   );

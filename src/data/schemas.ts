@@ -7,8 +7,8 @@ export const folderSchema = z.object({
 
 export const deviceSchema = z.object({
   name: z.string().min(1, 'O nome é obrigatório'),
-  selectedFolder: z.string({ message: 'Selecione uma pasta' }),
-  selectedTime: z.string(),
+  selectedFolderId: z.string({ message: 'Selecione uma pasta' }),
+  intervalSeconds: z.string(),
 });
 
 export const imageSchema = z.object({

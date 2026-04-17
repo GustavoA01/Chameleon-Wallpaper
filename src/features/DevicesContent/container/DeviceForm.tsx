@@ -1,27 +1,20 @@
 import { LabelInput } from '@/src/components/LabelInput';
-import { DeviceFormData, deviceSchema } from '@/src/data/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, useForm } from 'react-hook-form';
-import { FolderSelect } from '../components/DeviceCard/FolderSelect';
-import { TimeSelect } from '../components/DeviceCard/TimeSelect';
+import { DeviceFormData } from '@/src/data/schemas';
+import { Controller } from 'react-hook-form';
+import { FolderSelect } from '../components/FolderSelect';
+import { TimeSelect } from '../components/TimeSelect';
 import { Label } from '@/src/components/ui/label';
+import { useDeviceForm } from '../hooks/useDeviceForm';
+import { FolderType } from '@/src/data/types';
 
-export const DeviceForm = () => {
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<DeviceFormData>({
-    resolver: zodResolver(deviceSchema),
-  });
+type DeviceFormProps = {
+  folders: Omit<FolderType, 'images'>[];
+  setIsDialogOpen: (open: boolean) => void;
+};
 
-  const handleSaveDevice = (data: DeviceFormData) => {
-    const newDevice = {
-      ...data,
-      selectedTime: Number(data.selectedTime),
-    };
-  };
+export const DeviceForm = ({ folders, setIsDialogOpen }: DeviceFormProps) => {
+  const { handleSaveDevice, control, handleSubmit, register, errors } =
+    useDeviceForm(setIsDialogOpen);
 
   return (
     <form id="devices-form" onSubmit={handleSubmit(handleSaveDevice)}>
@@ -37,13 +30,17 @@ export const DeviceForm = () => {
         <Label>Pasta de imagens</Label>
         <Controller
           control={control}
-          name="selectedFolder"
+          name="selectedFolderId"
           render={({ formState, field: { value, onChange } }) => (
             <>
-              <FolderSelect value={value} onValueChange={onChange} />
-              {formState.errors.selectedFolder && (
+              <FolderSelect
+                folders={folders ?? []}
+                value={value}
+                onValueChange={onChange}
+              />
+              {formState.errors.selectedFolderId && (
                 <p className="text-sm text-red-500 my-1">
-                  {formState.errors.selectedFolder.message}
+                  {formState.errors.selectedFolderId.message}
                 </p>
               )}
             </>
@@ -55,14 +52,14 @@ export const DeviceForm = () => {
         <Label>Tempo de atualização</Label>
         <Controller
           control={control}
-          name="selectedTime"
+          name="intervalSeconds"
           defaultValue="3600"
           render={({ formState, field: { value, onChange } }) => (
             <>
               <TimeSelect value={value} onValueChange={onChange} />
-              {formState.errors.selectedTime && (
+              {formState.errors.intervalSeconds && (
                 <p className="text-sm text-red-500 my-2">
-                  {formState.errors.selectedTime.message}
+                  {formState.errors.intervalSeconds.message}
                 </p>
               )}
             </>

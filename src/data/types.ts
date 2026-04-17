@@ -18,6 +18,6 @@ export interface DeviceType {
   id: string;
   name: string;
   isActive: boolean;
-  selectedTime: number;
+  intervalSeconds: number;
   selectedFolderId: FolderType['id'];
 }

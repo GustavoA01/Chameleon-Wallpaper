@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("file:./dev.db")
+  url      = env("DATABASE_URL")
 }
 model Folder {
   id          String   @id @default(uuid())
@@ -27,7 +27,7 @@ model Image {
 model Device {
   id               String  @id @default(uuid())
   name             String
-  isActive         Boolean @default(true)
+  isActive         Boolean @default(false)
   intervalSeconds  Int     @default(3600)
   
   selectedFolderId String

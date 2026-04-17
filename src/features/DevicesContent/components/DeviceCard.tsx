@@ -11,15 +11,15 @@ import { Button } from '@/src/components/ui/button';
 import { ChevronFirst, ChevronLast } from 'lucide-react';
 import { TimeSelect } from './TimeSelect';
 import { Switch } from '@/src/components/ui/switch';
-import { DeviceType } from '@/src/data/types';
+import { DeviceType, FolderType } from '@/src/data/types';
 import { useState } from 'react';
 
 type DeviceCardProps = Omit<
   DeviceType,
   'id' | 'selectedFolderId' | 'selectedTime'
->;
+> & { folders: Omit<FolderType, 'images'>[] };
 
-export const DeviceCard = ({ name, isActive }: DeviceCardProps) => {
+export const DeviceCard = ({ name, isActive, folders }: DeviceCardProps) => {
   const [time, setTime] = useState('900');
 
   return (
@@ -27,12 +27,12 @@ export const DeviceCard = ({ name, isActive }: DeviceCardProps) => {
       <CardHeader>
         <CardTitle>{name}</CardTitle>
         <CardAction className="flex items-center space-x-2">
-          <Switch checked={isActive} />
+          <Switch defaultChecked={isActive} />
         </CardAction>
       </CardHeader>
 
       <CardFooter className="space-x-2">
-        <FolderSelect />
+        <FolderSelect folders={folders} />
         <TimeSelect value={time} onValueChange={setTime} />
         <div className="ml-auto space-x-1">
           <Button title="Imagem anterior">
