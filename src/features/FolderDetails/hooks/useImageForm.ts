@@ -3,7 +3,7 @@ import { useImageFile } from './useImageFile';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-export const useImageForm = () => {
+export const useImageForm = (folderId: string) => {
   const { chooseImageError, choosedFile, handleFileChange, handleImageError } =
     useImageFile();
   const methods = useForm<ImageFormData>({
@@ -11,8 +11,11 @@ export const useImageForm = () => {
   });
 
   const handleSaveImage = (data: ImageFormData) => {
-    console.log(data);
-    console.log(choosedFile);
+    const newImage = {
+      title: data.title,
+      url: choosedFile,
+      folderId,
+    };
   };
 
   return {

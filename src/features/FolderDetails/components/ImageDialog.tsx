@@ -1,6 +1,6 @@
+'use client';
 import { Button } from '@/src/components/ui/button';
 import {
-  Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
@@ -12,12 +12,12 @@ import {
 import { Plus } from 'lucide-react';
 import { ImageForm } from '../container/ImageForm';
 
-export const ImageDialog = () => (
-  <Dialog>
+export const ImageDialog = ({ folderId }: { folderId: string }) => (
+  <>
     <DialogTrigger asChild>
       <Button>
         <Plus />
-        <p className="hidden sm:flex">Adicionar imagem</p>
+        <span className="hidden sm:flex">Adicionar imagem</span>
       </Button>
     </DialogTrigger>
     <DialogContent>
@@ -27,7 +27,7 @@ export const ImageDialog = () => (
           Escolha uma imagem para salvar na pasta
         </DialogDescription>
       </DialogHeader>
-      <ImageForm />
+      <ImageForm folderId={folderId} />
       <DialogFooter>
         <DialogClose asChild>
           <Button variant="outline">Cancelar</Button>
@@ -35,5 +35,5 @@ export const ImageDialog = () => (
         <Button form="image-form">Salvar</Button>
       </DialogFooter>
     </DialogContent>
-  </Dialog>
+  </>
 );

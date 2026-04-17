@@ -4,7 +4,7 @@ import { ImageFormData } from '@/src/data/schemas';
 import { useImageForm } from '../hooks/useImageForm';
 import { FileInput } from '../components/FileInput';
 
-export const ImageForm = () => {
+export const ImageForm = ({ folderId }: { folderId: string }) => {
   const {
     chooseImageError,
     choosedFile,
@@ -14,7 +14,7 @@ export const ImageForm = () => {
     handleSaveImage,
     handleSubmit,
     register,
-  } = useImageForm();
+  } = useImageForm(folderId);
 
   return (
     <form id="image-form" onSubmit={handleSubmit(handleSaveImage)}>
