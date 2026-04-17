@@ -12,7 +12,7 @@ export const TabHeader = ({
   buttonText,
   onClick,
 }: TabHeaderProps) => (
-  <header className="flex justify-between items-center">
+  <header className="flex justify-between items-center gap-4">
     <h2 className="text-muted-foreground">{description}</h2>
     <Button onClick={onClick}>
       <Plus />

@@ -1,21 +1,9 @@
-import { createFolder } from '@/src/actions/createFolder';
 import { LabelInput } from '@/src/components/LabelInput';
-import { FolderFormData, folderSchema } from '@/src/data/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { FolderFormData } from '@/src/data/schemas';
+import { useFolderForm } from '../hooks/useFolderForm';
 
 export const FolderForm = () => {
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<FolderFormData>({
-    resolver: zodResolver(folderSchema),
-  });
-
-  const handleSaveFolder = async (data: FolderFormData) => {
-    await createFolder(data);
-  };
+  const { handleSaveFolder, handleSubmit, register, errors } = useFolderForm();
 
   return (
     <form
@@ -26,14 +14,14 @@ export const FolderForm = () => {
       <LabelInput<FolderFormData>
         errors={errors}
         label="Nome"
-        placeholder="Ex: natureza"
+        placeholder="Ex: Natureza"
         name="name"
         register={register}
       />
       <LabelInput<FolderFormData>
         errors={errors}
         label="Descrição breve"
-        placeholder="Ex: imagens relaxantes"
+        placeholder="Ex: imagens da natureza"
         name="description"
         register={register}
       />

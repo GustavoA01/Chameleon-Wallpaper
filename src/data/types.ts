@@ -1,9 +1,10 @@
 export interface FolderType {
   id: string;
   name: string;
-  description: string;
-  imageCount: number;
+  description: string | null;
   images: ImageType[];
+  imageCount: number;
+  createdAt: Date;
 }
 
 export interface ImageType {

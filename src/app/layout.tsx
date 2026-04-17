@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter, Montserrat } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/src/lib/utils';
 import { Header } from '../components/Header';
+import { Providers } from '../components/Providers';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -30,27 +31,27 @@ const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => {
-  return (
-    <html
-      lang="en"
-      className={cn(
-        'h-full',
-        'antialiased',
-        geistSans.variable,
-        geistMono.variable,
-        montserratVariable.variable,
-        'font-sans',
-        inter.variable
-      )}
-      suppressHydrationWarning
-    >
-      <body className="min-h-full flex flex-col dark">
+}>) => (
+  <html
+    lang="pt-BR"
+    className={cn(
+      'h-full',
+      'antialiased',
+      geistSans.variable,
+      geistMono.variable,
+      montserratVariable.variable,
+      'font-sans',
+      inter.variable
+    )}
+    suppressHydrationWarning
+  >
+    <body className="min-h-full flex flex-col dark">
+      <Providers>
         <Header />
         {children}
-      </body>
-    </html>
-  );
-};
+      </Providers>
+    </body>
+  </html>
+);
 
 export default RootLayout;

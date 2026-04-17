@@ -4,8 +4,10 @@ import { useState } from 'react';
 import { FolderDialogContent } from '../components/FolderDialogContent';
 import { ConfirmFolderDelete } from '../components/ConfirmFolderDelete';
 import { FolderDropDown } from '../components/FolderDropD';
+import { useFolderMutation } from '../hooks/useFolderMutation';
 
-export const FolderActions = () => {
+export const FolderActions = ({ id }: { id: string }) => {
+  const { deleteFolderFn } = useFolderMutation();
   const [openDropdown, setOpenDropdown] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -24,6 +26,7 @@ export const FolderActions = () => {
 
   const onDelete = () => {
     setOpenDeleteDialog(false);
+    deleteFolderFn(id);
   };
 
   const blockPropagation = (e: React.MouseEvent) => {

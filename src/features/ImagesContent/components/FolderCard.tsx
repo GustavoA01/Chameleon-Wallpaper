@@ -39,9 +39,13 @@ export const FolderCard = ({
 
         <CardAction className="flex items-center gap-2">
           <Badge variant="outline" className="text-muted-foreground rounded-md">
-            {imageCount} Imagens
+            {imageCount === 0
+              ? 'Nenhuma Imagem'
+              : imageCount === 1
+                ? `${imageCount} Imagem`
+                : `${imageCount} Imagens`}
           </Badge>
-          <FolderActions />
+          <FolderActions id={id} />
         </CardAction>
       </CardHeader>
     </Card>

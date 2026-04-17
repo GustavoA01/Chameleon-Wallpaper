@@ -2,6 +2,16 @@ import { Dialog } from '@/src/components/ui/dialog';
 import { render, screen } from '@testing-library/react';
 import { FolderDialogContent } from '../components/FolderDialogContent';
 
+jest.mock('@tanstack/react-query', () => ({
+  useMutation: () => ({
+    mutateAsync: jest.fn(),
+  }),
+}));
+
+jest.mock('next/cache', () => ({
+  revalidatePath: jest.fn(),
+}));
+
 describe('FolderDialogContent', () => {
   it('renders component correctly', () => {
     render(

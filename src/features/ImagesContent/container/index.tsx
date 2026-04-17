@@ -1,17 +1,21 @@
 import { FolderCard } from '../components/FolderCard';
 import { FolderHeader } from './FolderHeader';
+import { getAllFolders } from '@/src/actions/folder/getAllFolders';
 
-export const ImagesContent = () => {
+export const ImagesContent = async () => {
+  const folders = await getAllFolders();
+
   return (
-    <main className="">
+    <main>
       <FolderHeader />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-        <FolderCard
-          id="123"
-          name="Vacation Photos"
-          description="Descricao"
-          imageCount={15}
-        />
+        {folders.length > 0 ? (
+          folders.map((folder) => <FolderCard key={folder.id} {...folder} />)
+        ) : (
+          <p className="text-center text-muted-foreground mt-8">
+            Nenhuma pasta encontrada
+          </p>
+        )}
       </div>
     </main>
   );
