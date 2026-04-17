@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 export const useImageFile = () => {
   const [choosedFile, setChoosedFile] = useState<string | undefined>(undefined);
   const [chooseImageError, setChooseImageError] = useState<string | null>(null);
+  const [urlImage, setUrlImage] = useState<File | null>(null);
 
   useEffect(() => {
     return () => {
@@ -14,10 +15,11 @@ export const useImageFile = () => {
     const file = e.target.files?.[0];
     if (file) {
       const fileURL = URL.createObjectURL(file);
+      setUrlImage(file);
       setChoosedFile(fileURL);
     }
   };
-
+  console.log(urlImage);
   const handleImageError = () => {
     setChooseImageError('Erro ao carregar a imagem');
     setChoosedFile(undefined);
@@ -26,10 +28,40 @@ export const useImageFile = () => {
     }, 5000);
   };
 
+  const formatImage = async (): Promise<string> => {
+    try {
+      if (!choosedFile || !urlImage)
+        throw new Error('Nenhum arquivo escolhido para upload');
+
+      const formData = new FormData();
+      formData.append('file', urlImage);
+      formData.append('upload_preset', 'chameleon');
+
+      const url = 'https://api.cloudinary.com/v1_1/dbyal02d7/image/upload';
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error('Erro do Cloudinary:', errorDetails);
+        throw new Error('Falha no upload');
+      }
+
+      const data = await response.json();
+      return data.secure_url;
+    } catch (error) {
+      console.error('Erro ao formatar a imagem:', error);
+      throw error;
+    }
+  };
+
   return {
     choosedFile,
     chooseImageError,
     handleFileChange,
     handleImageError,
+    setChooseImageError,
+    formatImage,
   };
 };
