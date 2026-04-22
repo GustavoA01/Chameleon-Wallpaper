@@ -11,12 +11,11 @@ cloudinary.config({
 
 export async function deleteImage(imageId: string, publicId: string) {
   try {
-    await cloudinary.uploader.destroy(publicId);
-
     const deletedImage = await prisma.image.delete({
       where: { id: imageId },
     });
-    revalidatePath(`/folder/[id]`);
+    await cloudinary.uploader.destroy(publicId);
+    revalidatePath(`/folder/[id]`, 'page');
 
     return deletedImage;
   } catch (error) {

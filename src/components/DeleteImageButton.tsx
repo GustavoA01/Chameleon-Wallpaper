@@ -10,8 +10,8 @@ type DeleteImageButtonProps = {
 
 export const DeleteImageButton = ({ id, publicId }: DeleteImageButtonProps) => (
   <Button
-    variant="destructive"
     size="icon"
+    variant="destructive"
     onClick={() => deleteImage(id, publicId)}
   >
     <Trash className="text-destructive" size={14} />

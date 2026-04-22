@@ -10,7 +10,7 @@ export const updateFolder = async (id: string, data: FolderFormData) => {
       ...data,
     },
   });
-  revalidatePath('/');
+  revalidatePath('/', 'page');
 
   return updatedFolder;
 };

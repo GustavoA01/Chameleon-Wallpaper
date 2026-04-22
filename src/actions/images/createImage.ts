@@ -15,7 +15,7 @@ export const createImage = async (formData: CreateImageParamsType) => {
       ...formData,
     },
   });
-  revalidatePath('/folder/[id]');
+  revalidatePath('/folder/[id]', 'page');
 
   return newImage;
 };

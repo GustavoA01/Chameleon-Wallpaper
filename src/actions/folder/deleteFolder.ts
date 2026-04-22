@@ -6,7 +6,7 @@ export const deleteFolder = async (id: string) => {
   const deletedFolder = await prisma.folder.delete({
     where: { id },
   });
-  revalidatePath('/');
+  revalidatePath('/', 'page');
 
   return deletedFolder;
 };

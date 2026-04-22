@@ -10,7 +10,7 @@ export const createFolder = async (formData: FolderFormData) => {
     },
     include: { images: true },
   });
-  revalidatePath('/');
+  revalidatePath('/', 'page');
 
   return newFolder;
 };
