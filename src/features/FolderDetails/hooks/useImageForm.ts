@@ -35,14 +35,15 @@ export const useImageForm = (folderId: string) => {
       setChooseImageError('Nenhum arquivo escolhido para upload');
       return;
     }
-    const url = await formatImage();
+    const { url, publicId } = await formatImage();
 
     const newImage = {
       title: data.title,
       url,
+      publicId,
       folderId,
     };
-    console.log('chegot');
+
     await createImageFn(newImage);
   };
 

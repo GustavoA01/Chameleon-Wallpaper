@@ -11,6 +11,7 @@ export interface ImageType {
   id: string;
   title: string;
   url: string;
+  publicId: string;
   folderId: FolderType['id'];
 }
 

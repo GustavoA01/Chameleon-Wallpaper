@@ -19,7 +19,7 @@ export const useImageFile = () => {
       setChoosedFile(fileURL);
     }
   };
-  console.log(urlImage);
+
   const handleImageError = () => {
     setChooseImageError('Erro ao carregar a imagem');
     setChoosedFile(undefined);
@@ -28,20 +28,22 @@ export const useImageFile = () => {
     }, 5000);
   };
 
-  const formatImage = async (): Promise<string> => {
+  const formatImage = async (): Promise<{ url: string; publicId: string }> => {
     try {
       if (!choosedFile || !urlImage)
         throw new Error('Nenhum arquivo escolhido para upload');
 
       const formData = new FormData();
+      const cloudinaryName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
       formData.append('file', urlImage);
       formData.append('upload_preset', 'chameleon');
 
-      const url = 'https://api.cloudinary.com/v1_1/dbyal02d7/image/upload';
+      const url = `https://api.cloudinary.com/v1_1/${cloudinaryName}/image/upload`;
       const response = await fetch(url, {
         method: 'POST',
         body: formData,
       });
+
       if (!response.ok) {
         const errorDetails = await response.json();
         console.error('Erro do Cloudinary:', errorDetails);
@@ -49,7 +51,7 @@ export const useImageFile = () => {
       }
 
       const data = await response.json();
-      return data.secure_url;
+      return { url: data.secure_url, publicId: data.public_id };
     } catch (error) {
       console.error('Erro ao formatar a imagem:', error);
       throw error;

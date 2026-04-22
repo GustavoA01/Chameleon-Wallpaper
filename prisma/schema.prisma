@@ -20,6 +20,7 @@ model Image {
   id       String @id @default(uuid())
   title    String
   url      String
+  publicId  String
   folderId String
   folder   Folder @relation(fields: [folderId], references: [id], onDelete: Cascade)
 }

@@ -5,6 +5,7 @@ import { prisma } from '../../lib/prisma';
 type CreateImageParamsType = {
   title: string;
   url: string;
+  publicId: string;
   folderId: string;
 };
 
