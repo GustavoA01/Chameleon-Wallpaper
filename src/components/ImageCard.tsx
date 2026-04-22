@@ -11,7 +11,7 @@ export const ImageCard = ({ id, title, url, publicId }: ImageType) => (
       height={300}
       className="aspect-video group-hover:scale-110 object-cover w-full transition-all duration-400 rounded-md"
     />
-    <div className="absolute bottom-0 flex justify-between items-center w-full backdrop-blur-lg overflow-hidden px-4 py-2 rounded-b-md">
+    <div className="sm:translate-y-15 group-hover:translate-y-0 transition-all duration-400 absolute bottom-0 flex justify-between items-center w-full backdrop-blur-lg overflow-hidden px-4 py-2 rounded-b-md">
       <h2 className="font-bold line-clamp-1 text-white">{title}</h2>
       <DeleteImageButton id={id} publicId={publicId} />
     </div>
