@@ -2,10 +2,10 @@ import { render, screen } from '@testing-library/react';
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 import { LabelInput } from '../LabelInput';
 
-describe('LabelInput', () => {
-  const mockRegister = jest.fn().mockReturnValue({});
-  const mockErrors: FieldErrors<FieldValues> = {};
+const mockRegister = jest.fn().mockReturnValue({});
+const mockErrors: FieldErrors<FieldValues> = {};
 
+describe('LabelInput', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });

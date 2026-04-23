@@ -22,3 +22,11 @@ export interface DeviceType {
   intervalSeconds: number;
   selectedFolderId: FolderType['id'];
 }
+
+export type MockImageProps = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  className: string;
+};
