@@ -1,9 +1,6 @@
-import { Button } from '@/src/components/ui/button';
 import {
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/src/components/ui/dialog';
@@ -23,11 +20,5 @@ export const DevicesDialogContent = ({
       </DialogDescription>
     </DialogHeader>
     <DeviceForm id={id} folders={folders} setIsDialogOpen={setIsDialogOpen} />
-    <DialogFooter>
-      <DialogClose asChild>
-        <Button variant="outline">Cancelar</Button>
-      </DialogClose>
-      <Button form="devices-form">Salvar</Button>
-    </DialogFooter>
   </DialogContent>
 );

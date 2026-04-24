@@ -13,10 +13,11 @@ export const useFetchFolder = (
     if (!id) return;
     const fetchFolder = async () => {
       const response = await getFolderById(id);
+      console.log(response);
       if (response) {
         reset({
           name: response.name,
-          description: response.description ?? undefined,
+          description: response.description || undefined,
         });
       }
     };

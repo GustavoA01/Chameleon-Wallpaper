@@ -1,11 +1,9 @@
 import { LabelInput } from '@/src/components/LabelInput';
 import { FolderFormData } from '@/src/data/schemas';
 import { useFolderForm } from '../hooks/useFolderForm';
-
-type FolderFormProps = {
-  id?: string;
-  setIsDialogOpen?: (open: boolean) => void;
-};
+import { Button } from '@/src/components/ui/button';
+import { DialogClose, DialogFooter } from '@/src/components/ui/dialog';
+import { FolderFormProps } from '../types';
 
 export const FolderForm = ({ id, setIsDialogOpen }: FolderFormProps) => {
   const { handleSaveFolder, handleSubmit, register, errors } = useFolderForm(
@@ -14,11 +12,7 @@ export const FolderForm = ({ id, setIsDialogOpen }: FolderFormProps) => {
   );
 
   return (
-    <form
-      id="folder-form"
-      className="space-y-4"
-      onSubmit={handleSubmit(handleSaveFolder)}
-    >
+    <form id="folder-form" className="space-y-4">
       <LabelInput<FolderFormData>
         errors={errors}
         label="Nome"
@@ -33,6 +27,18 @@ export const FolderForm = ({ id, setIsDialogOpen }: FolderFormProps) => {
         name="description"
         register={register}
       />
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button variant="outline">Cancelar</Button>
+        </DialogClose>
+        <Button
+          type="submit"
+          form="folder-form"
+          onClick={handleSubmit(handleSaveFolder)}
+        >
+          Salvar
+        </Button>
+      </DialogFooter>
     </form>
   );
 };

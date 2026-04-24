@@ -6,6 +6,8 @@ import { TimeSelect } from '../components/TimeSelect';
 import { Label } from '@/src/components/ui/label';
 import { useDeviceForm } from '../hooks/useDeviceForm';
 import { DeviceFormProps } from '../types';
+import { DialogClose, DialogFooter } from '@/src/components/ui/dialog';
+import { Button } from '@/src/components/ui/button';
 
 export const DeviceForm = ({
   id,
@@ -65,6 +67,19 @@ export const DeviceForm = ({
           )}
         />
       </div>
+
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button variant="outline">Cancelar</Button>
+        </DialogClose>
+        <Button
+          type="submit"
+          form="devices-form"
+          onClick={handleSubmit(handleSaveDevice)}
+        >
+          Salvar
+        </Button>
+      </DialogFooter>
     </form>
   );
 };

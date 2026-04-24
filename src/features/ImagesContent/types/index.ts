@@ -10,3 +10,8 @@ export type FolderDialogContentProps = {
   id?: string;
   setIsDialogOpen?: (open: boolean) => void;
 };
+
+export type FolderFormProps = {
+  id?: string;
+  setIsDialogOpen?: (open: boolean) => void;
+};

@@ -11,7 +11,7 @@ export const useFolderMutation = (
   const { mutateAsync: createFolderFn } = useMutation({
     mutationFn: createFolder,
     onSuccess: () => {
-      setIsDialogOpen?.(false);
+      if (setIsDialogOpen) setIsDialogOpen(false);
       toast.success('Pasta criada');
     },
     onError: (error) => {
@@ -24,7 +24,7 @@ export const useFolderMutation = (
     mutationFn: ({ id, data }: { id: string; data: FolderFormData }) =>
       updateFolder(id, data),
     onSuccess: () => {
-      setIsDialogOpen?.(false);
+      if (setIsDialogOpen) setIsDialogOpen(false);
       toast.success('Pasta atualizada');
     },
     onError: (error) => {
@@ -36,7 +36,7 @@ export const useFolderMutation = (
   const { mutateAsync: deleteFolderFn } = useMutation({
     mutationFn: deleteFolder,
     onSuccess: () => {
-      setIsDialogOpen?.(false);
+      if (setIsDialogOpen) setIsDialogOpen(false);
       toast.success('Pasta excluída');
     },
     onError: (error) => {

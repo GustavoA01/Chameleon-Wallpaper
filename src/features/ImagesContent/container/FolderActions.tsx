@@ -29,7 +29,7 @@ export const FolderActions = ({ id }: { id: string }) => {
       />
 
       <Dialog open={openEditDialog} onOpenChange={setOpenEditDialog}>
-        <FolderDialogContent id={id} />
+        <FolderDialogContent id={id} setIsDialogOpen={setOpenEditDialog} />
       </Dialog>
 
       <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
