@@ -9,8 +9,12 @@ import {
 import { Timer } from 'lucide-react';
 import { TimeSelectProps } from '../types';
 
-export const TimeSelect = ({ value, onValueChange }: TimeSelectProps) => (
-  <Select value={value} onValueChange={onValueChange}>
+export const TimeSelect = ({
+  value,
+  onValueChange,
+  disabled,
+}: TimeSelectProps) => (
+  <Select value={value} onValueChange={onValueChange} disabled={disabled}>
     <SelectTrigger>
       <SelectValue placeholder={<Timer />} />
     </SelectTrigger>

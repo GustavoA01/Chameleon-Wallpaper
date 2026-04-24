@@ -1,4 +1,4 @@
-import { DeviceCard } from '../components/DeviceCard';
+import { DeviceCard } from './DeviceCard';
 import { DeviceContentProps } from '../types';
 import { DevicesHeader } from './DevicesHeader';
 

@@ -13,8 +13,9 @@ export const FolderSelect = ({
   value,
   onValueChange,
   folders,
+  disabled,
 }: FolderSelectProps) => (
-  <Select value={value} onValueChange={onValueChange}>
+  <Select value={value} onValueChange={onValueChange} disabled={disabled}>
     <SelectTrigger>
       <SelectValue placeholder={<Folder />} />
     </SelectTrigger>

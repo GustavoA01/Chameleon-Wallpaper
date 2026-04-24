@@ -18,7 +18,7 @@ export const DeviceForm = ({
     useDeviceForm(id, setIsDialogOpen);
 
   return (
-    <form id="devices-form" onSubmit={handleSubmit(handleSaveDevice)}>
+    <form id="devices-form">
       <LabelInput<DeviceFormData>
         name="name"
         label="Nome do dispositivo"
