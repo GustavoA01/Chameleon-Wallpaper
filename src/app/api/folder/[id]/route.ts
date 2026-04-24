@@ -10,6 +10,34 @@ export const GET = async (
   if (!id)
     return NextResponse.json({ error: 'Folder ID required' }, { status: 400 });
 
+  const folder = await prisma.folder.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!folder)
+    return NextResponse.json(
+      { error: 'Pasta não encontrada' },
+      { status: 404 }
+    );
+
+  const device = await prisma.device.findFirst({
+    where: {
+      selectedFolderId: folder.id,
+    },
+  });
+
+  if (!device)
+    return NextResponse.json({ error: 'Device not found' }, { status: 404 });
+
+  if (!device.isActive) {
+    return NextResponse.json({
+      status: 'disabled',
+      message: 'O dispositivo está desativado',
+    });
+  }
+
   const images = await prisma.image.findMany({
     where: { folderId: id },
   });
@@ -25,6 +53,6 @@ export const GET = async (
   return NextResponse.json({
     url: image?.url,
     title: image?.title,
-    interval: 3600,
+    interval: device?.intervalSeconds || 3600,
   });
 };

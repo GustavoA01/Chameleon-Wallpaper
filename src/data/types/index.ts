@@ -21,6 +21,7 @@ export interface DeviceType {
   isActive: boolean;
   intervalSeconds: number;
   selectedFolderId: FolderType['id'];
+  selectedFolder: FolderType | null;
 }
 
 export type MockImageProps = {
