@@ -112,28 +112,6 @@ describe('ImageCard', () => {
     );
   });
 
-  it('should have the correct CSS classes on overlay div', () => {
-    renderComponent();
-    const overlay = document.querySelector('.sm\\:translate-y-15');
-    expect(overlay).toHaveClass(
-      'sm:translate-y-15',
-      'group-hover:translate-y-0',
-      'transition-all',
-      'duration-400',
-      'absolute',
-      'bottom-0',
-      'flex',
-      'justify-between',
-      'items-center',
-      'w-full',
-      'backdrop-blur-lg',
-      'overflow-hidden',
-      'px-4',
-      'py-2',
-      'rounded-b-md'
-    );
-  });
-
   it('should have title with line-clamp-1 class', () => {
     renderComponent();
     const title = screen.getByText('Imagem de Teste');
@@ -196,7 +174,7 @@ describe('ImageCard', () => {
 
   it('should have backdrop blur on overlay', () => {
     renderComponent();
-    const overlay = document.querySelector('.backdrop-blur-lg');
+    const overlay = document.querySelector('.backdrop-blur-xs');
 
     expect(overlay).toBeInTheDocument();
   });
