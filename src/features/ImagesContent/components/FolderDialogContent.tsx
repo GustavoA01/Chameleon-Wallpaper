@@ -8,11 +8,7 @@ import {
   DialogTitle,
 } from '@/src/components/ui/dialog';
 import { FolderForm } from '../container/FolderForm';
-
-type FolderDialogContentProps = {
-  id?: string;
-  setIsDialogOpen?: (open: boolean) => void;
-};
+import { FolderDialogContentProps } from '../types';
 
 export const FolderDialogContent = ({
   id,

@@ -1,11 +1,6 @@
 import { Plus } from 'lucide-react';
 import { Button } from './ui/button';
-
-type TabHeaderProps = {
-  description: string;
-  buttonText: string;
-  onClick: () => void;
-};
+import { TabHeaderProps } from '../data/types/components';
 
 export const TabHeader = ({
   description,

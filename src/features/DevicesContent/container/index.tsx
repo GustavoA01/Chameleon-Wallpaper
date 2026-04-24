@@ -1,11 +1,6 @@
 import { DeviceCard } from '../components/DeviceCard';
+import { DeviceContentProps } from '../types';
 import { DevicesHeader } from './DevicesHeader';
-import { DeviceType, FolderType } from '@/src/data/types';
-
-type DeviceContentProps = {
-  folders: Omit<FolderType, 'images'>[];
-  devices: DeviceType[];
-};
 
 export const DevicesContent = async ({
   folders,

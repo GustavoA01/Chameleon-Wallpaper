@@ -7,12 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/src/components/ui/dialog';
-
-type ConfirmDeleteModalProps = {
-  title: string;
-  description: string;
-  onDelete: () => void;
-};
+import { ConfirmDeleteModalProps } from '../data/types/components';
 
 export const ConfirmDeleteModal = ({
   title,

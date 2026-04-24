@@ -14,6 +14,12 @@ export const GET = async (
     where: { folderId: id },
   });
 
+  if (images.length === 0)
+    return NextResponse.json(
+      { error: 'Nenhuma imagem nesta pasta' },
+      { status: 404 }
+    );
+
   const image = images[Math.floor(Math.random() * images.length)];
 
   return NextResponse.json({

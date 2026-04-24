@@ -11,8 +11,8 @@ export const useFolderForm = (
   const methods = useForm<FolderFormData>({
     resolver: zodResolver(folderSchema),
   });
-  const { createFolderFn, updateFolderFn } = useFolderMutation(setIsDialogOpen);
   useFetchFolder(methods, id);
+  const { createFolderFn, updateFolderFn } = useFolderMutation(setIsDialogOpen);
 
   const handleSaveFolder = async (data: FolderFormData) => {
     if (id) await updateFolderFn({ id, data });

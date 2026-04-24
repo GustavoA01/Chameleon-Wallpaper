@@ -12,8 +12,8 @@ export const useDeviceForm = (
   const methods = useForm<DeviceFormData>({
     resolver: zodResolver(deviceSchema),
   });
-  const { createDeviceFn, updateDeviceFn } = useDeviceMutation(setIsDialogOpen);
   useFetchDevice(methods, id);
+  const { createDeviceFn, updateDeviceFn } = useDeviceMutation(setIsDialogOpen);
 
   const handleSaveDevice = async (data: DeviceFormData) => {
     const newDevice: Pick<

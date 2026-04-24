@@ -1,14 +1,9 @@
 import { ActionsDropDown } from '@/src/components/ActionsDropD';
 import { Dialog } from '@/src/components/ui/dialog';
 import { DevicesDialogContent } from '../components/DevicesDialogContent';
-import { FolderType } from '@/src/data/types';
 import { ConfirmDeleteModal } from '@/src/components/ConfirmDeleteModal';
 import { useDeviceActions } from '../hooks/useDeviceActions';
-
-type DevicesActionsProps = {
-  id: string;
-  folders: Omit<FolderType, 'images'>[];
-};
+import { DevicesActionsProps } from '../types';
 
 export const DevicesActions = ({ id, folders }: DevicesActionsProps) => {
   const {

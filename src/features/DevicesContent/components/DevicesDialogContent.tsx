@@ -8,13 +8,7 @@ import {
   DialogTitle,
 } from '@/src/components/ui/dialog';
 import { DeviceForm } from '../container/DeviceForm';
-import { FolderType } from '@/src/data/types';
-
-type DevicesDialogContentProps = {
-  id?: string;
-  folders: Omit<FolderType, 'images'>[];
-  setIsDialogOpen: (open: boolean) => void;
-};
+import { DevicesDialogContentProps } from '../types';
 
 export const DevicesDialogContent = ({
   id,

@@ -5,13 +5,7 @@ import { FolderSelect } from '../components/FolderSelect';
 import { TimeSelect } from '../components/TimeSelect';
 import { Label } from '@/src/components/ui/label';
 import { useDeviceForm } from '../hooks/useDeviceForm';
-import { FolderType } from '@/src/data/types';
-
-type DeviceFormProps = {
-  id?: string;
-  folders: Omit<FolderType, 'images'>[];
-  setIsDialogOpen: (open: boolean) => void;
-};
+import { DeviceFormProps } from '../types';
 
 export const DeviceForm = ({
   id,

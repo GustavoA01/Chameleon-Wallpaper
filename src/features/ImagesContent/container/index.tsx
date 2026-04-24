@@ -1,12 +1,8 @@
-import { FolderType } from '@/src/data/types';
 import { FolderCard } from '../components/FolderCard';
 import { FolderHeader } from './FolderHeader';
+import { ImagesContentProps } from '../types';
 
-export const ImagesContent = async ({
-  folders,
-}: {
-  folders: Omit<FolderType, 'images'>[];
-}) => (
+export const ImagesContent = ({ folders }: ImagesContentProps) => (
   <main>
     <FolderHeader />
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">

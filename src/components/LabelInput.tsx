@@ -1,21 +1,7 @@
-import {
-  FieldErrors,
-  FieldValues,
-  Path,
-  UseFormRegister,
-} from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-
-type LabelInputProps<T extends FieldValues> = {
-  label: string;
-  placeholder: string;
-  name: Path<T>;
-  register: UseFormRegister<T>;
-  errors: FieldErrors<T>;
-  inputType?: string;
-  className?: string;
-};
+import { LabelInputProps } from '../data/types/components';
 
 export const LabelInput = <T extends FieldValues>({
   label,

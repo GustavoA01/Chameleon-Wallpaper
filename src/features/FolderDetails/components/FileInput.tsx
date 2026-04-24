@@ -1,13 +1,7 @@
 import { Input } from '@/src/components/ui/input';
 import { ImageUp } from 'lucide-react';
 import Image from 'next/image';
-
-type FileInputProps = {
-  choosedFile: string | undefined;
-  chooseImageError: string | null;
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleImageError: () => void;
-};
+import { FileInputProps } from '../types';
 
 export const FileInput = ({
   choosedFile,

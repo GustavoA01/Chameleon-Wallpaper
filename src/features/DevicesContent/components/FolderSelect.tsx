@@ -6,14 +6,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/src/components/ui/select';
-import { FolderType } from '@/src/data/types';
 import { Folder } from 'lucide-react';
-
-type FolderSelectProps = {
-  value?: string;
-  onValueChange?: (value: string) => void;
-  folders: Pick<FolderType, 'id' | 'name'>[];
-};
+import { FolderSelectProps } from '../types';
 
 export const FolderSelect = ({
   value,

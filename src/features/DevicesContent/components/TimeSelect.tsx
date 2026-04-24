@@ -7,11 +7,7 @@ import {
   SelectValue,
 } from '@/src/components/ui/select';
 import { Timer } from 'lucide-react';
-
-type TimeSelectProps = {
-  value: string;
-  onValueChange: (value: string) => void;
-};
+import { TimeSelectProps } from '../types';
 
 export const TimeSelect = ({ value, onValueChange }: TimeSelectProps) => (
   <Select value={value} onValueChange={onValueChange}>

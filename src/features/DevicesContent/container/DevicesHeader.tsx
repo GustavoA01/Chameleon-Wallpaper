@@ -2,14 +2,10 @@
 import { DevicesDialogContent } from '../components/DevicesDialogContent';
 import { TabHeader } from '@/src/components/TabHeader';
 import { Dialog } from '@/src/components/ui/dialog';
-import { FolderType } from '@/src/data/types';
 import { useState } from 'react';
+import { DeviceHeaderProps } from '../types';
 
-export const DevicesHeader = ({
-  folders,
-}: {
-  folders: Omit<FolderType, 'images'>[];
-}) => {
+export const DevicesHeader = ({ folders }: DeviceHeaderProps) => {
   const [openDialog, setOpenDialog] = useState(false);
 
   return (

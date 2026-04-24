@@ -11,13 +11,9 @@ import { Button } from '@/src/components/ui/button';
 import { ChevronFirst, ChevronLast } from 'lucide-react';
 import { TimeSelect } from './TimeSelect';
 import { Switch } from '@/src/components/ui/switch';
-import { DeviceType, FolderType } from '@/src/data/types';
 import { useState } from 'react';
 import { DevicesActions } from '../container/DevicesActions';
-
-type DeviceCardProps = Omit<DeviceType, 'selectedFolderId' | 'selectedTime'> & {
-  folders: Omit<FolderType, 'images'>[];
-};
+import { DeviceCardProps } from '../types';
 
 export const DeviceCard = ({
   id,

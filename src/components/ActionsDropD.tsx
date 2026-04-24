@@ -6,13 +6,7 @@ import {
   DropdownMenuTrigger,
 } from '@/src/components/ui/dropdown-menu';
 import { MoreVertical, Pencil, Trash2 } from 'lucide-react';
-
-type ActionsDropDownProps = {
-  onEdit: (e: Event) => void;
-  onOpenDeleteDialog: (e: Event) => void;
-  openDropdown: boolean;
-  setOpenDropdown: (open: boolean) => void;
-};
+import { ActionsDropDownProps } from '../data/types/components';
 
 export const ActionsDropDown = ({
   onEdit,

@@ -2,15 +2,13 @@ import { Badge } from '@/src/components/ui/badge';
 import { Folder } from 'lucide-react';
 import Link from 'next/link';
 import { FolderActions } from '../container/FolderActions';
-import { FolderType } from '@/src/data/types';
 import {
   Card,
   CardAction,
   CardHeader,
   CardTitle,
 } from '@/src/components/ui/card';
-
-type FolderCardProps = Omit<FolderType, 'images'>;
+import { FolderCardProps } from '../types';
 
 export const FolderCard = ({
   id,
