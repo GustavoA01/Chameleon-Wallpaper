@@ -4,10 +4,11 @@ import { ImageType } from '../data/types';
 import { deleteImage } from '../actions/images/deleteImage';
 import { Button } from './ui/button';
 import { Trash } from 'lucide-react';
+import { selectImage } from '../actions/wallpaper/selectImage';
 
 export const ImageCard = ({ id, title, url, publicId }: ImageType) => (
   <div
-    onClick={() => {}}
+    onClick={() => selectImage(url)}
     className="group cursor-pointer h-auto overflow-hidden rounded-md relative border border-bg-transparent hover:border-primary transition-all duration-200"
   >
     <Image

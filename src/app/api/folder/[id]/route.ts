@@ -52,7 +52,6 @@ export const GET = async (
 
   return NextResponse.json({
     url: image?.url,
-    title: image?.title,
     interval: device?.intervalSeconds || 3600,
   });
 };

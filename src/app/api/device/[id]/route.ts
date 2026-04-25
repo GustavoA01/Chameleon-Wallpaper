@@ -12,10 +12,31 @@ export const GET = async (
 
   const device = await prisma.device.findUnique({
     where: { id },
+    include: {
+      selectedFolder: {
+        include: {
+          images: true,
+        },
+      },
+    },
   });
 
-  if (!device)
-    return NextResponse.json({ error: 'Device not found' }, { status: 404 });
+  if (!device || !device.selectedFolder) {
+    return NextResponse.json(
+      { error: 'Configuração incompleta' },
+      { status: 404 }
+    );
+  }
 
-  return NextResponse.json(device);
+  const images = device.selectedFolder.images;
+
+  const randomImage = images[Math.floor(Math.random() * images.length)];
+
+  const response = {
+    url: randomImage.url,
+    interval: device.intervalSeconds,
+    isActive: device.isActive,
+  };
+
+  return NextResponse.json(response);
 };

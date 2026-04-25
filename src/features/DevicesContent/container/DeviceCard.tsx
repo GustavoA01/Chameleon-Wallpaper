@@ -14,6 +14,7 @@ import { Switch } from '@/src/components/ui/switch';
 import { DevicesActions } from './DevicesActions';
 import { DeviceCardProps } from '../types';
 import { useDeviceChange } from '../hooks/useDeviceChange';
+import { nextImage } from '@/src/actions/wallpaper/nextImage';
 
 export const DeviceCard = ({
   id,
@@ -62,6 +63,7 @@ export const DeviceCard = ({
           className="ml-auto"
           title="Imagem seguinte"
           disabled={isPending}
+          onClick={() => nextImage(selectedFolderId)}
         >
           <ChevronLast />
         </Button>

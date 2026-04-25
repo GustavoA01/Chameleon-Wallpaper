@@ -20,6 +20,7 @@ export const TimeSelect = ({
     </SelectTrigger>
     <SelectContent>
       <SelectGroup>
+        <SelectItem value="60">1 min</SelectItem>
         <SelectItem value="900">15 min</SelectItem>
         <SelectItem value="1800">30 min</SelectItem>
         <SelectItem value="3600">1 h</SelectItem>

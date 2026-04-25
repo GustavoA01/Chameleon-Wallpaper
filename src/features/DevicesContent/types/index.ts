@@ -9,7 +9,7 @@ type FolderDeviceType = Omit<FolderType, 'images'>;
 
 export type DeviceContentProps = {
   folders: FolderDeviceType[];
-  devices: DeviceType[];
+  devices: Omit<DeviceType, 'selectedFolder'>[];
 };
 
 export type DeviceHeaderProps = {
@@ -46,6 +46,9 @@ export type DevicesDialogContentProps = {
   setIsDialogOpen: (open: boolean) => void;
 };
 
-export type DeviceCardProps = Omit<DeviceType, 'selectedTime'> & {
+export type DeviceCardProps = Omit<
+  DeviceType,
+  'selectedTime' | 'selectedFolder'
+> & {
   folders: FolderDeviceType[];
 };
