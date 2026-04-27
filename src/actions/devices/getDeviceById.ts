@@ -2,7 +2,9 @@
 import { DeviceType } from '@/src/data/types';
 import { prisma } from '@/src/lib/prisma';
 
-export const getDeviceById = async (id: string): Promise<DeviceType | null> => {
+export const getDeviceById = async (
+  id: string
+): Promise<Omit<DeviceType, 'selectedFolder'> | null> => {
   const device = await prisma.device.findUnique({
     where: { id },
   });

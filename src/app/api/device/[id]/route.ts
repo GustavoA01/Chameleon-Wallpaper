@@ -21,12 +21,11 @@ export const GET = async (
     },
   });
 
-  if (!device || !device.selectedFolder) {
+  if (!device || !device.selectedFolder)
     return NextResponse.json(
       { error: 'Configuração incompleta' },
       { status: 404 }
     );
-  }
 
   const images = device.selectedFolder.images;
 

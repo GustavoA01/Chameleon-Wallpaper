@@ -2,7 +2,6 @@
 export const selectImage = async (url: string) => {
   try {
     const requestUrl = `${process.env.NEXT_PUBLIC_PYTHON_AGENT_URL}/select_image`;
-
     const response = await fetch(requestUrl, {
       method: 'POST',
       headers: {

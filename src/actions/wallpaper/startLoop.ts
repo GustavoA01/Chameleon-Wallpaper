@@ -1,7 +1,6 @@
 'use server';
 export const startLoop = async (deviceId: string) => {
   const url = `${process.env.NEXT_PUBLIC_PYTHON_AGENT_URL}/image_loop`;
-
   try {
     const response = await fetch(url, {
       method: 'POST',

@@ -1,5 +1,5 @@
 import { updateDeviceSettings } from '@/src/actions/devices/updateDeviceSettings';
-import { selectFolder } from '@/src/actions/wallpaper/selectFolder';
+import { nextImage } from '@/src/actions/wallpaper/nextImage';
 import { startLoop } from '@/src/actions/wallpaper/startLoop';
 import { DeviceType } from '@/src/data/types';
 import { useMutation } from '@tanstack/react-query';
@@ -30,7 +30,7 @@ export const useDeviceChange = (
   const onSelectFolder = async (folderId: string) => {
     setSelectedFolder(folderId);
     await updateDeviceFn({ selectedFolderId: folderId });
-    await selectFolder(folderId);
+    await nextImage(folderId);
   };
 
   const onChangeTime = async (time: string) => {
@@ -42,6 +42,7 @@ export const useDeviceChange = (
     const currentDevice = await updateDeviceFn({ isActive: !isActive });
     if (currentDevice.isActive !== isActive) await startLoop(id);
   };
+
   return {
     time,
     selectedFolder,

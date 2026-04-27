@@ -31,12 +31,11 @@ export const GET = async (
   if (!device)
     return NextResponse.json({ error: 'Device not found' }, { status: 404 });
 
-  if (!device.isActive) {
+  if (!device.isActive)
     return NextResponse.json({
       status: 'disabled',
       message: 'O dispositivo está desativado',
     });
-  }
 
   const images = await prisma.image.findMany({
     where: { folderId: id },

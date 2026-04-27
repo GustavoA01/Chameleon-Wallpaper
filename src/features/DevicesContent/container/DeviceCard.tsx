@@ -52,17 +52,17 @@ export const DeviceCard = ({
           folders={folders}
           value={selectedFolder}
           onValueChange={onSelectFolder}
-          disabled={isPending}
+          disabled={isPending || !isActive}
         />
         <TimeSelect
           value={time}
           onValueChange={onChangeTime}
-          disabled={isPending}
+          disabled={isPending || !isActive}
         />
         <Button
           className="ml-auto"
           title="Imagem seguinte"
-          disabled={isPending}
+          disabled={isPending || !isActive}
           onClick={() => nextImage(selectedFolderId)}
         >
           <ChevronLast />

@@ -18,6 +18,7 @@ export async function updateDeviceSettings({
       },
     });
     revalidatePath('/');
+
     return updated;
   } catch (error) {
     console.error(error);
