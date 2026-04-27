@@ -2,6 +2,7 @@ from utils import download_image, auto_update_loop
 from flask import Blueprint, request, jsonify
 import requests
 
+current_interval = 60
 wallpaper_bp = Blueprint('wallpaper', __name__)
 
 @wallpaper_bp.route("/image_loop", methods=["POST"])

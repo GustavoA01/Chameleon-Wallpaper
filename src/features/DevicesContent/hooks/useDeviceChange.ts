@@ -40,7 +40,8 @@ export const useDeviceChange = (
 
   const onActiveChange = async () => {
     const currentDevice = await updateDeviceFn({ isActive: !isActive });
-    if (currentDevice.isActive !== isActive) await startLoop(id);
+    if (currentDevice.isActive !== isActive && currentDevice.isActive)
+      await startLoop(id);
   };
 
   return {

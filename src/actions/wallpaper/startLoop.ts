@@ -10,6 +10,12 @@ export const startLoop = async (deviceId: string) => {
       },
     });
 
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.log(errorText);
+      throw new Error('O Python retornou um erro.');
+    }
+
     return response.json();
   } catch (error) {
     console.error('Error starting image loop:', error);
