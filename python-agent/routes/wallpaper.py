@@ -1,21 +1,37 @@
 from utils import download_image, auto_update_loop
 from flask import Blueprint, request, jsonify
+import threading
 import requests
 
+is_loop_active = False
 current_interval = 60
 wallpaper_bp = Blueprint('wallpaper', __name__)
 
 @wallpaper_bp.route("/image_loop", methods=["POST"])
 def image_loop():
+    global is_loop_active
+    
+    if is_loop_active:
+        return jsonify({"message": "O loop já está rodando"}), 400
+
     body = request.get_json()
     deviceId = body.get("deviceId")
+    
     if not deviceId:
         return jsonify({"error": "deviceId is required"}), 400
     
-    auto_update_loop(deviceId)
-    return jsonify({"message": "Loop iniciado"}), 200
+    is_loop_active = True
+    
+    thread = threading.Thread(target=auto_update_loop, args=(deviceId, is_loop_active), daemon=True)
+    thread.start()
 
-#TODO: criar stop_loop
+    return jsonify({"message": "Loop disparado em segundo plano"}), 200
+
+@wallpaper_bp.route("/stop_loop", methods=["POST"])
+def stop_loop():
+    global is_loop_active
+    is_loop_active = False
+    return jsonify({"message": "Loop parado"}), 200
 
 @wallpaper_bp.route("/select_image", methods=["POST"])
 def select_image():

@@ -24,12 +24,12 @@ def download_image(url: bytes):
     ctypes.windll.user32.SystemParametersInfoW(20, 0, image_path, 3)
 
 
-def auto_update_loop(deviceId: str):
-    print("comecando loop")
+def auto_update_loop(deviceId: str,is_loop_active: bool):
     global current_interval
     
-    while True:
+    while is_loop_active:
         try:
+            print("comecando loop")
             device_url = f"http://localhost:3000/api/device/{deviceId}"
             response = requests.get(device_url)
 
@@ -47,7 +47,7 @@ def auto_update_loop(deviceId: str):
                 time.sleep(current_interval)
             else:
                 print(
-                    "Dispositivo não encontrado ou inativo. Tentando novamente em 30s"
+                    "Dispositivo não encontrado ou inativo. Tentando de novo em 30s"
                 )
                 time.sleep(30)
 
