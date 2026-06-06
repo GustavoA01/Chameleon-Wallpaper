@@ -3,6 +3,11 @@ import winreg
 import ctypes
 import time
 import os
+import threading
+
+current_interval = 60
+timer_reset_event = threading.Event()
+
 
 def set_wallpaper_style():
     key = winreg.OpenKey(
@@ -24,9 +29,21 @@ def download_image(url: bytes):
     ctypes.windll.user32.SystemParametersInfoW(20, 0, image_path, 3)
 
 
-def auto_update_loop(deviceId: str,is_loop_active: bool):
+def update_current_interval(interval):
     global current_interval
-    
+
+    if interval is not None:
+        current_interval = int(interval)
+
+
+def reset_loop_timer(interval=None):
+    update_current_interval(interval)
+    timer_reset_event.set()
+
+
+def auto_update_loop(deviceId: str, is_loop_active: bool):
+    global current_interval
+
     while is_loop_active:
         try:
             print("comecando loop")
@@ -39,12 +56,17 @@ def auto_update_loop(deviceId: str,is_loop_active: bool):
                 if not data.get("isActive"):
                     print("Dispositivo está inativo. Parando o loop.")
                     break
+
                 image_url = data.get("url")
-                current_interval = data.get("interval", current_interval)
+                new_interval = data.get("interval")
+
+                update_current_interval(new_interval)
 
                 urlBytes = requests.get(image_url).content
                 download_image(urlBytes)
-                time.sleep(current_interval)
+
+                while timer_reset_event.wait(timeout=current_interval):
+                    timer_reset_event.clear()
             else:
                 print(
                     "Dispositivo não encontrado ou inativo. Tentando de novo em 30s"

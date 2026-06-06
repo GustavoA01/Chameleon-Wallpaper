@@ -105,7 +105,8 @@ describe('ImageCard', () => {
       'aspect-video',
       'group-hover:scale-110',
       'object-cover',
-      'w-full',
+      'w-auto',
+      'h-auto',
       'transition-all',
       'duration-400',
       'rounded-md'

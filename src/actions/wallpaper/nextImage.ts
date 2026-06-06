@@ -9,7 +9,7 @@ export const nextImage = async (folderId: string) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ url, interval }),
+    body: JSON.stringify({ url, interval, resetTimer: true }),
   });
 
   return response.json();
