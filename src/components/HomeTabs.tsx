@@ -1,4 +1,5 @@
 'use client';
+import { motion } from 'motion/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from './ui/button';
 import { tabs } from '../data/constants';
@@ -21,10 +22,28 @@ export const HomeTabs = () => {
           key={tab.value}
           variant="ghost"
           onClick={() => setSearchParams(tab.value)}
-          className={`rounded-none col-span-1 ${activeTab === tab.value ? 'border-b-primary text-primary' : 'text-muted-foreground'}`}
+          className={`relative rounded-none col-span-1 overflow-visible border-b border-b-transparent ${activeTab === tab.value ? 'border-b-primary text-primary' : 'text-muted-foreground'}`}
         >
-          {<tab.icon />}
-          {tab.label}
+          <motion.span
+            animate={{
+              color:
+                activeTab === tab.value
+                  ? 'var(--primary)'
+                  : 'var(--muted-foreground)',
+            }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="flex items-center gap-2"
+          >
+            {<tab.icon />}
+            {tab.label}
+          </motion.span>
+          {activeTab === tab.value && (
+            <motion.div
+              layoutId="home-tabs-active-line"
+              className="absolute -bottom-px left-0 right-0 h-px bg-primary"
+              transition={{ type: 'spring', stiffness: 320, damping: 34 }}
+            />
+          )}
         </Button>
       ))}
     </div>

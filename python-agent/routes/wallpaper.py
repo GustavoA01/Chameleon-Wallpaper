@@ -1,34 +1,30 @@
-from utils import (
-    download_image,
-    auto_update_loop,
-    reset_loop_timer,
-    update_current_interval,
-)
-from flask import Blueprint, request, jsonify
 import threading
-import requests
 
-is_loop_active = False
-wallpaper_bp = Blueprint('wallpaper', __name__)
+import requests
+from flask import Blueprint, jsonify, request
+from utils import (
+    auto_update_loop,
+    download_image,
+    is_auto_update_loop_running,
+    reset_loop_timer,
+    stop_auto_update_loop,
+)
+
+wallpaper_bp = Blueprint("wallpaper", __name__)
 
 
 @wallpaper_bp.route("/image_loop", methods=["POST"])
 def image_loop():
-    global is_loop_active
-
-    if is_loop_active:
-        return jsonify({"message": "O loop já está rodando"}), 400
+    if is_auto_update_loop_running():
+        return jsonify({"message": "O loop ja esta rodando"}), 400
 
     body = request.get_json()
-    deviceId = body.get("deviceId")
+    device_id = body.get("deviceId")
 
-    if not deviceId:
+    if not device_id:
         return jsonify({"error": "deviceId is required"}), 400
 
-    is_loop_active = True
-
-    thread = threading.Thread(target=auto_update_loop, args=(
-        deviceId, is_loop_active), daemon=True)
+    thread = threading.Thread(target=auto_update_loop, args=(device_id,), daemon=True)
     thread.start()
 
     return jsonify({"message": "Loop disparado em segundo plano"}), 200
@@ -36,8 +32,7 @@ def image_loop():
 
 @wallpaper_bp.route("/stop_loop", methods=["POST"])
 def stop_loop():
-    global is_loop_active
-    is_loop_active = False
+    stop_auto_update_loop()
     return jsonify({"message": "Loop parado"}), 200
 
 
@@ -66,5 +61,5 @@ def update_interval():
     if not new_interval:
         return jsonify({"error": "interval is required"}), 400
 
-    update_current_interval(new_interval)
+    reset_loop_timer(new_interval)
     return jsonify({"success": True}), 200

@@ -1,10 +1,11 @@
 'use server';
-export const startLoop = async (deviceId: string) => {
-  const url = `${process.env.NEXT_PUBLIC_PYTHON_AGENT_URL}/image_loop`;
+
+export const stopLoop = async () => {
+  const url = `${process.env.NEXT_PUBLIC_PYTHON_AGENT_URL}/stop_loop`;
+
   try {
     const response = await fetch(url, {
       method: 'POST',
-      body: JSON.stringify({ deviceId }),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -12,16 +13,12 @@ export const startLoop = async (deviceId: string) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      if (errorText.includes('loop ja esta rodando')) {
-        return { alreadyRunning: true };
-      }
-
       console.log(errorText);
       throw new Error('O Python retornou um erro.');
     }
 
     return response.json();
   } catch (error) {
-    console.error('Error starting image loop:', error);
+    console.error('Error stopping image loop:', error);
   }
 };

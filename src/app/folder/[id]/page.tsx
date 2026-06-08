@@ -22,8 +22,8 @@ const FolderPage = async ({ params }: { params: Promise<{ id: string }> }) => {
           </p>
         ) : (
           <>
-            {images.map((image) => (
-              <ImageCard key={image.id} {...image} />
+            {images.map((image, index) => (
+              <ImageCard key={image.id} {...image} delayTime={index * 0.1} />
             ))}
           </>
         )}

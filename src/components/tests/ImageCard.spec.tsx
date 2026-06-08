@@ -86,14 +86,14 @@ describe('ImageCard', () => {
     const container = document.querySelector('.group');
     expect(container).toHaveClass(
       'group',
-      'h-auto',
+      'aspect-video',
       'overflow-hidden',
       'rounded-md',
       'relative',
       'border',
-      'border-bg-transparent',
+      'border-transparent',
       'hover:border-primary',
-      'transition-all',
+      'transition-colors',
       'duration-200'
     );
   });
@@ -102,12 +102,11 @@ describe('ImageCard', () => {
     renderComponent();
     const image = screen.getByAltText('Imagem de Teste');
     expect(image).toHaveClass(
-      'aspect-video',
       'group-hover:scale-110',
       'object-cover',
-      'w-auto',
-      'h-auto',
-      'transition-all',
+      'w-full',
+      'h-full',
+      'transition-transform',
       'duration-400',
       'rounded-md'
     );
@@ -149,7 +148,7 @@ describe('ImageCard', () => {
   it('should apply hover effects on group hover', () => {
     renderComponent();
     const image = screen.getByAltText('Imagem de Teste');
-    const overlay = document.querySelector('.sm\\:translate-y-15');
+    const overlay = document.querySelector('.translate-y-full');
 
     expect(image).toHaveClass('group-hover:scale-110');
     expect(overlay).toHaveClass('group-hover:translate-y-0');
@@ -161,16 +160,16 @@ describe('ImageCard', () => {
 
     expect(container).toHaveClass(
       'hover:border-primary',
-      'transition-all',
+      'transition-colors',
       'duration-200'
     );
   });
 
   it('should render image with correct aspect ratio', () => {
     renderComponent();
-    const image = screen.getByAltText('Imagem de Teste');
+    const container = document.querySelector('.group');
 
-    expect(image).toHaveClass('aspect-video');
+    expect(container).toHaveClass('aspect-video');
   });
 
   it('should have backdrop blur on overlay', () => {

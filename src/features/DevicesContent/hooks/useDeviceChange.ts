@@ -1,9 +1,11 @@
 import { updateDeviceSettings } from '@/src/actions/devices/updateDeviceSettings';
 import { nextImage } from '@/src/actions/wallpaper/nextImage';
 import { startLoop } from '@/src/actions/wallpaper/startLoop';
+import { stopLoop } from '@/src/actions/wallpaper/stopLoop';
+import { updateInterval } from '@/src/actions/wallpaper/updateInterval';
 import { DeviceType } from '@/src/data/types';
 import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 export const useDeviceChange = (
@@ -14,6 +16,7 @@ export const useDeviceChange = (
 ) => {
   const [time, setTime] = useState(intervalSeconds.toString());
   const [selectedFolder, setSelectedFolder] = useState(selectedFolderId);
+  const [active, setActive] = useState(isActive);
 
   const { mutateAsync: updateDeviceFn, isPending } = useMutation({
     mutationFn: (data: Partial<DeviceType>) =>
@@ -27,6 +30,16 @@ export const useDeviceChange = (
     },
   });
 
+  useEffect(() => {
+    setActive(isActive);
+  }, [isActive]);
+
+  useEffect(() => {
+    if (!active) return;
+
+    void startLoop(id);
+  }, [active, id]);
+
   const onSelectFolder = async (folderId: string) => {
     setSelectedFolder(folderId);
     await updateDeviceFn({ selectedFolderId: folderId });
@@ -35,17 +48,26 @@ export const useDeviceChange = (
 
   const onChangeTime = async (time: string) => {
     setTime(time);
-    await updateDeviceFn({ intervalSeconds: parseInt(time) });
+    const intervalSeconds = parseInt(time);
+    await updateDeviceFn({ intervalSeconds });
+    await updateInterval(intervalSeconds);
   };
 
-  const onActiveChange = async () => {
-    const currentDevice = await updateDeviceFn({ isActive: !isActive });
-    if (currentDevice.isActive !== isActive && currentDevice.isActive)
+  const onActiveChange = async (checked: boolean) => {
+    setActive(checked);
+    const currentDevice = await updateDeviceFn({ isActive: checked });
+
+    if (currentDevice.isActive) {
       await startLoop(id);
+      return;
+    }
+
+    await stopLoop();
   };
 
   return {
     time,
+    active,
     selectedFolder,
     onSelectFolder,
     onChangeTime,

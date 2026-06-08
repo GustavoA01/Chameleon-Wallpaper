@@ -26,6 +26,7 @@ export const DeviceCard = ({
 }: DeviceCardProps) => {
   const {
     time,
+    active,
     selectedFolder,
     onSelectFolder,
     onChangeTime,
@@ -40,7 +41,7 @@ export const DeviceCard = ({
         <CardAction className="flex items-center space-x-2">
           <Switch
             disabled={isPending}
-            defaultChecked={isActive}
+            checked={active}
             onCheckedChange={onActiveChange}
           />
           <DevicesActions id={id} folders={folders} />
@@ -52,18 +53,18 @@ export const DeviceCard = ({
           folders={folders}
           value={selectedFolder}
           onValueChange={onSelectFolder}
-          disabled={isPending || !isActive}
+          disabled={isPending || !active}
         />
         <TimeSelect
           value={time}
           onValueChange={onChangeTime}
-          disabled={isPending || !isActive}
+          disabled={isPending || !active}
         />
         <Button
           className="ml-auto"
           title="Imagem seguinte"
-          disabled={isPending || !isActive}
-          onClick={() => nextImage(selectedFolderId)}
+          disabled={isPending || !active}
+          onClick={() => nextImage(selectedFolder)}
         >
           <ChevronLast />
         </Button>
