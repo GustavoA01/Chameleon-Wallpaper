@@ -1,19 +1,11 @@
 'use client';
 import { motion } from 'motion/react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from './ui/button';
 import { tabs } from '../data/constants';
+import { useHomeTabs } from '../hooks/useHomeTabs';
 
 export const HomeTabs = () => {
-  const { push } = useRouter();
-  const searchParams = useSearchParams();
-  const activeTab = searchParams.get('tab') || 'images';
-
-  const setSearchParams = (tabValue: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('tab', tabValue);
-    push(`?${params.toString()}`);
-  };
+  const { activeTab, setSearchParams, activedColor } = useHomeTabs();
 
   return (
     <div className="grid grid-cols-2 max-sm:w-full sm:flex gap-2 mb-8">
@@ -26,10 +18,7 @@ export const HomeTabs = () => {
         >
           <motion.span
             animate={{
-              color:
-                activeTab === tab.value
-                  ? 'var(--primary)'
-                  : 'var(--muted-foreground)',
+              color: activedColor(tab.value),
             }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
             className="flex items-center gap-2"
@@ -37,6 +26,7 @@ export const HomeTabs = () => {
             {<tab.icon />}
             {tab.label}
           </motion.span>
+
           {activeTab === tab.value && (
             <motion.div
               layoutId="home-tabs-active-line"

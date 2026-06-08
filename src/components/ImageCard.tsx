@@ -1,13 +1,11 @@
 'use client';
 import Image from 'next/image';
-import { ImageType } from '../data/types';
 import { deleteImage } from '../actions/images/deleteImage';
 import { Button } from './ui/button';
 import { Trash } from 'lucide-react';
 import { selectImage } from '../actions/wallpaper/selectImage';
 import { motion } from 'motion/react';
-
-type ImageCardProps = Omit<ImageType, 'folderId'> & { delayTime: number };
+import { ImageCardProps } from '../data/types/components';
 
 export const ImageCard = ({
   id,

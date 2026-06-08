@@ -4,6 +4,7 @@ import {
   Path,
   UseFormRegister,
 } from 'react-hook-form';
+import { ImageType } from '.';
 
 export type TabHeaderProps = {
   description: string;
@@ -34,4 +35,8 @@ export type ActionsDropDownProps = {
   onOpenDeleteDialog: (e: Event) => void;
   openDropdown: boolean;
   setOpenDropdown: (open: boolean) => void;
+};
+
+export type ImageCardProps = Omit<ImageType, 'folderId'> & {
+  delayTime: number;
 };
