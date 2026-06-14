@@ -12,6 +12,10 @@ stop_loop_event = threading.Event()
 loop_running = False
 
 
+def get_app_url():
+    return os.getenv("CHAMELEON_APP_URL", "http://localhost:3000").rstrip("/")
+
+
 def set_wallpaper_style():
     key = winreg.OpenKey(
         winreg.HKEY_CURRENT_USER, r"Control Panel\Desktop", 0, winreg.KEY_SET_VALUE
@@ -66,7 +70,7 @@ def wait_for_next_rotation():
     return False
 
 
-def auto_update_loop(deviceId: str):
+def auto_update_loop(deviceId: str = ""):
     global loop_running
 
     stop_loop_event.clear()
@@ -76,7 +80,8 @@ def auto_update_loop(deviceId: str):
         while not stop_loop_event.is_set():
             try:
                 print("Comecando loop")
-                device_url = f"http://localhost:3000/api/device/{deviceId}"
+                device_path = f"/api/device/{deviceId}" if deviceId else "/api/device/active"
+                device_url = f"{get_app_url()}{device_path}"
                 response = requests.get(device_url)
 
                 if response.status_code == 200:
@@ -106,7 +111,9 @@ def auto_update_loop(deviceId: str):
                     if not should_continue:
                         break
                 else:
-                    print("Dispositivo nao encontrado. Tentando de novo em 30s.")
+                    print(
+                        f"Dispositivo nao encontrado ({response.status_code}). Tentando de novo em 30s."
+                    )
                     time.sleep(30)
 
             except Exception as e:

@@ -25,6 +25,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Chameleon',
   description: 'Muda o wallpaper do computador de acordo com o tempo definido',
+  icons: {
+    icon: '/favicon.jpg',
+  },
 };
 
 const RootLayout = ({

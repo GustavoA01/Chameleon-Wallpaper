@@ -1,3 +1,4 @@
+import os
 import threading
 
 import requests
@@ -11,6 +12,20 @@ from utils import (
 )
 
 wallpaper_bp = Blueprint("wallpaper", __name__)
+
+
+def start_configured_loop():
+    device_id = os.getenv("CHAMELEON_DEVICE_ID", "").strip()
+
+    if is_auto_update_loop_running():
+        return
+
+    thread = threading.Thread(
+        target=auto_update_loop,
+        args=(device_id,),
+        daemon=True,
+    )
+    thread.start()
 
 
 @wallpaper_bp.route("/image_loop", methods=["POST"])
