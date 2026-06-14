@@ -1,5 +1,4 @@
 'use client';
-
 import * as React from 'react';
 import {
   DayPicker,
@@ -7,9 +6,8 @@ import {
   type DayButton,
   type Locale,
 } from 'react-day-picker';
-
 import { cn } from '@/src/lib/utils';
-import { Button, buttonVariants } from '@/src/ui/button';
+import { Button, buttonVariants } from './button';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
