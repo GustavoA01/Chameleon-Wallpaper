@@ -22,13 +22,29 @@ export const useDeviceChange = (
     mutationFn: (data: Partial<DeviceType>) =>
       updateDeviceSettings({ id, ...data }),
     onSuccess: async () => {
-      toast.success('Altera????o salva');
+      toast.success('Alteração salva');
     },
     onError: () => {
-      toast.error('Erro ao salvar altera????o');
+      toast.error('Erro ao salvar alteração');
       console.error('Error updating device settings');
     },
   });
+
+  const { mutateAsync: nextImageFn, isPending: isNextImagePending } =
+    useMutation({
+      mutationFn: (folderId: string) => nextImage(folderId),
+      onSuccess: (response) => {
+        if ('error' in response && response.error) {
+          toast.error(response.error);
+          return;
+        }
+
+        toast.success('Próxima imagem selecionada');
+      },
+      onError: () => {
+        toast.error('Erro ao selecionar próxima imagem');
+      },
+    });
 
   useEffect(() => {
     setActive(isActive);
@@ -36,15 +52,16 @@ export const useDeviceChange = (
 
   useEffect(() => {
     if (!active) return;
-
-    void startLoop();
+    startLoop();
   }, [active, id]);
 
   const onSelectFolder = async (folderId: string) => {
     setSelectedFolder(folderId);
     await updateDeviceFn({ selectedFolderId: folderId });
-    await nextImage(folderId);
+    await nextImageFn(folderId);
   };
+
+  const onNextImage = async () => await nextImageFn(selectedFolder);
 
   const onChangeTime = async (time: string) => {
     setTime(time);
@@ -70,8 +87,9 @@ export const useDeviceChange = (
     active,
     selectedFolder,
     onSelectFolder,
+    onNextImage,
     onChangeTime,
     onActiveChange,
-    isPending,
+    isPending: isPending || isNextImagePending,
   };
 };

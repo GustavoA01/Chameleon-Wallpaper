@@ -23,10 +23,30 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Chameleon',
+  title: 'Chameleon Wallpaper',
   description: 'Muda o wallpaper do computador de acordo com o tempo definido',
   icons: {
-    icon: '/favicon.jpg',
+    icon: { url: '/favicon.jpg', type: 'image/jpeg' },
+    shortcut: '/favicon.jpg',
+    apple: '/favicon.jpg',
+  },
+  openGraph: {
+    title: 'Chameleon Wallpaper',
+    description:
+      'Muda o wallpaper do computador de acordo com o tempo definido',
+    images: '/favicon.jpg',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Chameleon Wallpaper',
+    description:
+      'Muda o wallpaper do computador de acordo com o tempo definido',
+    images: '/favicon.jpg',
+  },
+  appleWebApp: {
+    capable: true,
+    title: 'Chameleon Wallpaper',
+    statusBarStyle: 'black-translucent',
   },
 };
 
