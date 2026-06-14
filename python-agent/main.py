@@ -31,4 +31,4 @@ CORS(app)
 app.register_blueprint(wallpaper_bp)
 start_configured_loop()
 
-app.run(port=5000, host="localhost", debug=True)
+app.run(port=5000, host="localhost", debug=False, use_reloader=False)

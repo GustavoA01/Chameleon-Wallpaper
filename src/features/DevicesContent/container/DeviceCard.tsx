@@ -64,7 +64,9 @@ export const DeviceCard = ({
           className="ml-auto"
           title="Imagem seguinte"
           disabled={isPending || !active}
-          onClick={() => nextImage(selectedFolder)}
+          onClick={async () => {
+            await nextImage(selectedFolder);
+          }}
         >
           <ChevronLast />
         </Button>
