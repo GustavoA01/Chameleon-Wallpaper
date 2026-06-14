@@ -1,12 +1,15 @@
 from pathlib import Path
 import os
+import sys
 
 from flask import Flask
 from flask_cors import CORS
 
+BASE_DIR = Path(__file__).resolve().parent
+
 
 def load_env_file():
-    env_path = Path(__file__).with_name(".env")
+    env_path = BASE_DIR / ".env"
 
     if not env_path.exists():
         return
@@ -21,7 +24,19 @@ def load_env_file():
         os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
 
 
+def configure_logging():
+    logs_dir = BASE_DIR / "logs"
+    logs_dir.mkdir(exist_ok=True)
+    log_path = logs_dir / "agent.log"
+    log_file = log_path.open("a", encoding="utf-8", buffering=1)
+
+    sys.stdout = log_file
+    sys.stderr = log_file
+    print("\n--- Chameleon Wallpaper Agent started ---", flush=True)
+
+
 load_env_file()
+configure_logging()
 
 from routes.wallpaper import start_configured_loop, wallpaper_bp
 
