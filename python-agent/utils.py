@@ -16,6 +16,10 @@ def get_app_url():
     return os.getenv("CHAMELEON_APP_URL", "http://localhost:3000").rstrip("/")
 
 
+def get_command_poll_seconds():
+    return int(os.getenv("CHAMELEON_COMMAND_POLL_SECONDS", "5"))
+
+
 def set_wallpaper_style():
     key = winreg.OpenKey(
         winreg.HKEY_CURRENT_USER, r"Control Panel\Desktop", 0, winreg.KEY_SET_VALUE
@@ -34,6 +38,11 @@ def download_image(url: bytes):
     set_wallpaper_style()
     image_path = os.path.abspath(file_name)
     ctypes.windll.user32.SystemParametersInfoW(20, 0, image_path, 3)
+
+
+def apply_wallpaper_url(image_url: str):
+    url_bytes = requests.get(image_url).content
+    download_image(url_bytes)
 
 
 def update_current_interval(interval):
@@ -57,15 +66,51 @@ def is_auto_update_loop_running():
     return loop_running
 
 
-def wait_for_next_rotation():
+def fetch_pending_command(deviceId: str = ""):
+    query = f"?deviceId={deviceId}" if deviceId else ""
+    response = requests.get(f"{get_app_url()}/api/wallpaper-command/next{query}")
+
+    if response.status_code != 200:
+        return None
+
+    return response.json().get("command")
+
+
+def apply_command(command):
+    if not command:
+        return False
+
+    command_type = command.get("type")
+    image_url = command.get("url")
+    interval = command.get("interval")
+    reset_timer = command.get("resetTimer")
+
+    if interval is not None:
+        update_current_interval(interval)
+
+    if command_type in ["SELECT_IMAGE", "NEXT_IMAGE"] and image_url:
+        apply_wallpaper_url(image_url)
+        print(f"Comando {command_type} aplicado.")
+
+    return bool(reset_timer)
+
+
+def wait_for_next_rotation(deviceId: str = ""):
+    deadline = time.monotonic() + current_interval
+
     while not stop_loop_event.is_set():
-        was_reset = timer_reset_event.wait(timeout=current_interval)
+        command = fetch_pending_command(deviceId)
+        should_reset_timer = apply_command(command)
 
-        if was_reset:
-            timer_reset_event.clear()
-            continue
+        if should_reset_timer:
+            deadline = time.monotonic() + current_interval
 
-        return True
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            return True
+
+        timer_reset_event.wait(timeout=min(get_command_poll_seconds(), remaining))
+        timer_reset_event.clear()
 
     return False
 
@@ -88,8 +133,9 @@ def auto_update_loop(deviceId: str = ""):
                     data = response.json()
 
                     if not data.get("isActive"):
-                        print("Dispositivo inativo. Parando loop.")
-                        break
+                        print("Dispositivo inativo. Tentando de novo em 30s.")
+                        time.sleep(30)
+                        continue
 
                     image_url = data.get("url")
                     new_interval = data.get("interval")
@@ -99,15 +145,15 @@ def auto_update_loop(deviceId: str = ""):
                         time.sleep(10)
                         continue
 
-                    update_current_interval(new_interval)
+                    active_device_id = deviceId or data.get("deviceId", "")
 
-                    url_bytes = requests.get(image_url).content
-                    download_image(url_bytes)
+                    update_current_interval(new_interval)
+                    apply_wallpaper_url(image_url)
                     print(
                         f"Wallpaper automatico aplicado. Proxima troca em {current_interval}s."
                     )
 
-                    should_continue = wait_for_next_rotation()
+                    should_continue = wait_for_next_rotation(active_device_id)
                     if not should_continue:
                         break
                 else:
@@ -121,3 +167,4 @@ def auto_update_loop(deviceId: str = ""):
                 time.sleep(10)
     finally:
         loop_running = False
+

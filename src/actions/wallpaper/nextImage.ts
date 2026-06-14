@@ -1,16 +1,38 @@
 'use server';
-export const nextImage = async (folderId: string) => {
-  const res = await fetch(`http://localhost:3000/api/folder/${folderId}`);
-  const { url, interval } = await res.json();
 
-  const requestUrl = `${process.env.NEXT_PUBLIC_PYTHON_AGENT_URL}/select_image`;
-  const response = await fetch(requestUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+import { prisma } from '@/src/lib/prisma';
+
+export const nextImage = async (folderId: string) => {
+  const device = await prisma.device.findFirst({
+    where: {
+      selectedFolderId: folderId,
+      isActive: true,
     },
-    body: JSON.stringify({ url, interval, resetTimer: true }),
   });
 
-  return response.json();
+  if (!device) {
+    return { error: 'Device not found or inactive' };
+  }
+
+  const images = await prisma.image.findMany({
+    where: { folderId },
+  });
+
+  if (images.length === 0) {
+    return { error: 'Nenhuma imagem nesta pasta' };
+  }
+
+  const image = images[Math.floor(Math.random() * images.length)];
+
+  await prisma.wallpaperCommand.create({
+    data: {
+      type: 'NEXT_IMAGE',
+      url: image.url,
+      interval: device.intervalSeconds,
+      resetTimer: true,
+      deviceId: device.id,
+    },
+  });
+
+  return { success: true };
 };

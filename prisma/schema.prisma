@@ -35,3 +35,13 @@ model Device {
   selectedFolderId String
   selectedFolder   Folder  @relation(fields: [selectedFolderId], references: [id], onDelete: Cascade)
 }
+model WallpaperCommand {
+  id          String    @id @default(uuid())
+  type        String
+  url         String?
+  interval    Int?
+  resetTimer  Boolean   @default(false)
+  deviceId    String?
+  createdAt   DateTime  @default(now())
+  consumedAt  DateTime?
+}

@@ -1,15 +1,15 @@
-export const updateInterval = async (intervalSeconds: number) => {
-  try {
-    const url = `${process.env.NEXT_PUBLIC_PYTHON_AGENT_URL}/update_interval`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ interval: intervalSeconds }),
-    });
+'use server';
 
-    return response.json();
-  } catch (error) {
-    console.error('Error updating interval:', error);
-    throw error;
-  }
+import { prisma } from '@/src/lib/prisma';
+
+export const updateInterval = async (intervalSeconds: number) => {
+  await prisma.wallpaperCommand.create({
+    data: {
+      type: 'UPDATE_INTERVAL',
+      interval: intervalSeconds,
+      resetTimer: true,
+    },
+  });
+
+  return { success: true };
 };
