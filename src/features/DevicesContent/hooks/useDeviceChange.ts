@@ -22,10 +22,10 @@ export const useDeviceChange = (
     mutationFn: (data: Partial<DeviceType>) =>
       updateDeviceSettings({ id, ...data }),
     onSuccess: async () => {
-      toast.success('Alteração salva');
+      toast.success('Altera????o salva');
     },
     onError: () => {
-      toast.error('Erro ao salvar alteração');
+      toast.error('Erro ao salvar altera????o');
       console.error('Error updating device settings');
     },
   });
@@ -37,7 +37,7 @@ export const useDeviceChange = (
   useEffect(() => {
     if (!active) return;
 
-    void startLoop(id);
+    void startLoop();
   }, [active, id]);
 
   const onSelectFolder = async (folderId: string) => {
@@ -58,7 +58,7 @@ export const useDeviceChange = (
     const currentDevice = await updateDeviceFn({ isActive: checked });
 
     if (currentDevice.isActive) {
-      await startLoop(id);
+      await startLoop();
       return;
     }
 
