@@ -1,8 +1,9 @@
 import Image from 'next/image';
-import { LogOut } from 'lucide-react';
+import { LogIn, LogOut } from 'lucide-react';
 import { logout } from '@/src/actions/auth';
 import { getCurrentUser } from '@/src/lib/auth';
 import { Button } from './ui/button';
+import Link from 'next/link';
 
 export const Header = async () => {
   const user = await getCurrentUser();
@@ -22,9 +23,14 @@ export const Header = async () => {
           Chameleon Wallpaper
         </h1>
 
-        {user && (
+        {!user ? (
+          <Button variant="outline">
+            <Link href="/login">Entrar</Link>
+            <LogIn />
+          </Button>
+        ) : (
           <div className="flex items-center gap-2">
-            <span className="hidden max-w-52 truncate text-sm sm:inline">
+            <span className="hidden max-w-64 truncate text-sm sm:inline">
               {user.email}
             </span>
             <form action={logout}>
