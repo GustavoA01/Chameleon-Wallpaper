@@ -1,10 +1,13 @@
 'use server';
+
 import { FolderType } from '@/src/data/types';
 import { prisma } from '@/src/lib/prisma';
+import { getCurrentUser } from '@/src/lib/auth';
 
 export const getFolderById = async (id: string): Promise<FolderType | null> => {
-  const response = await prisma.folder.findUnique({
-    where: { id },
+  const user = await getCurrentUser();
+  const response = await prisma.folder.findFirst({
+    where: { id, userId: user?.id ?? null },
     include: {
       images: true,
       _count: {
@@ -15,7 +18,7 @@ export const getFolderById = async (id: string): Promise<FolderType | null> => {
 
   if (!response) return null;
 
-  const folder = {
+  return {
     id: response.id,
     name: response.name,
     description: response.description,
@@ -23,6 +26,4 @@ export const getFolderById = async (id: string): Promise<FolderType | null> => {
     imageCount: response._count.images,
     createdAt: response.createdAt,
   };
-
-  return folder;
 };

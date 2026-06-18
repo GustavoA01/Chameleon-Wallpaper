@@ -1,14 +1,21 @@
+import { DeviceType, FolderType } from '@/src/data/types';
 import { DeviceCard } from './DeviceCard';
-import { DeviceContentProps } from '../types';
 import { DevicesHeader } from './DevicesHeader';
+
+type DeviceContentProps = {
+  folders: Omit<FolderType, 'images'>[];
+  devices: Omit<DeviceType, 'selectedFolder'>[];
+  isAuthenticated: boolean;
+};
 
 export const DevicesContent = async ({
   folders,
   devices,
+  isAuthenticated,
 }: DeviceContentProps) => {
   return (
     <main>
-      <DevicesHeader folders={folders} />
+      <DevicesHeader folders={folders} isAuthenticated={isAuthenticated} />
       {devices?.length === 0 ? (
         <p className="text-center text-muted-foreground mt-8">
           Nenhum dispositivo encontrado

@@ -2,6 +2,7 @@ import { FolderType } from '@/src/data/types';
 
 export type ImagesContentProps = {
   folders: Omit<FolderType, 'images'>[];
+  isAuthenticated: boolean;
 };
 
 export type FolderCardProps = Omit<FolderType, 'images' | 'createdAt'>;

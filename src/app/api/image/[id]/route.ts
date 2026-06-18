@@ -1,18 +1,31 @@
-import { prisma } from '@/src/lib/prisma';
 import { NextResponse } from 'next/server';
+import { getCurrentUser } from '@/src/lib/auth';
+import { prisma } from '@/src/lib/prisma';
 
 export const GET = async (
   _: unknown,
   { params }: { params: Promise<{ id: string }> }
 ) => {
-  const { id } = await params;
+  const user = await getCurrentUser();
 
-  const image = prisma.image.findFirst({
-    where: { id },
+  if (!user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const { id } = await params;
+  const image = await prisma.image.findFirst({
+    where: {
+      id,
+      folder: { userId: user.id },
+    },
   });
 
-  if (!image)
-    return NextResponse.json({ error: 'Image not found' }, { status: 404 });
+  if (!image) {
+    return NextResponse.json(
+      { error: 'Imagem não encontrada' },
+      { status: 404 }
+    );
+  }
 
   return NextResponse.json(image);
 };

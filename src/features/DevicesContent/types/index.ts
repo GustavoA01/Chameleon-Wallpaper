@@ -10,10 +10,12 @@ type FolderDeviceType = Omit<FolderType, 'images'>;
 export type DeviceContentProps = {
   folders: FolderDeviceType[];
   devices: Omit<DeviceType, 'selectedFolder'>[];
+  isAuthenticated: boolean;
 };
 
 export type DeviceHeaderProps = {
   folders: FolderDeviceType[];
+  isAuthenticated: boolean;
 };
 
 export type DevicesActionsProps = {

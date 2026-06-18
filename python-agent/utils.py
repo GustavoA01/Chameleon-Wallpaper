@@ -16,6 +16,11 @@ def get_app_url():
     return os.getenv("CHAMELEON_APP_URL", "http://localhost:3000").rstrip("/")
 
 
+def get_agent_headers():
+    token = os.getenv("CHAMELEON_DEVICE_TOKEN", "")
+    return {"Authorization": f"Bearer {token}"}
+
+
 def get_command_poll_seconds():
     return int(os.getenv("CHAMELEON_COMMAND_POLL_SECONDS", "5"))
 
@@ -68,7 +73,10 @@ def is_auto_update_loop_running():
 
 def fetch_pending_command(deviceId: str = ""):
     query = f"?deviceId={deviceId}" if deviceId else ""
-    response = requests.get(f"{get_app_url()}/api/wallpaper-command/next{query}")
+    response = requests.get(
+        f"{get_app_url()}/api/wallpaper-command/next{query}",
+        headers=get_agent_headers(),
+    )
 
     if response.status_code != 200:
         return None
@@ -127,7 +135,7 @@ def auto_update_loop(deviceId: str = ""):
                 print("Comecando loop")
                 device_path = f"/api/device/{deviceId}" if deviceId else "/api/device/active"
                 device_url = f"{get_app_url()}{device_path}"
-                response = requests.get(device_url)
+                response = requests.get(device_url, headers=get_agent_headers())
 
                 if response.status_code == 200:
                     data = response.json()

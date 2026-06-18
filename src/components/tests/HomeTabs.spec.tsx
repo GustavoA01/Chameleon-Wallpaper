@@ -1,188 +1,112 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { useSearchParams } from 'next/navigation';
 import { HomeTabs } from '../HomeTabs';
 import { tabs } from '../../data/constants';
 
 jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(),
   useSearchParams: jest.fn(),
 }));
 
 type ReadonlyURLSearchParams = ReturnType<typeof useSearchParams>;
 
 describe('HomeTabs', () => {
-  const mockPush = jest.fn();
-  const mockUseRouter = useRouter as jest.MockedFunction<typeof useRouter>;
   const mockUseSearchParams = useSearchParams as jest.MockedFunction<
     typeof useSearchParams
   >;
 
+  const setInitialTab = (tab?: string) => {
+    const params = new URLSearchParams();
+    if (tab) params.set('tab', tab);
+    mockUseSearchParams.mockReturnValue(
+      params as unknown as ReadonlyURLSearchParams
+    );
+  };
+
   beforeEach(() => {
     jest.clearAllMocks();
-
-    mockUseRouter.mockReturnValue({
-      push: mockPush,
-      back: jest.fn(),
-      forward: jest.fn(),
-      refresh: jest.fn(),
-      replace: jest.fn(),
-      prefetch: jest.fn(),
-    });
+    window.history.replaceState(null, '', '/');
   });
 
-  it('should render all tabs', () => {
-    const mockSearchParams = new URLSearchParams();
-    mockSearchParams.set('tab', 'images');
-    mockUseSearchParams.mockReturnValue(
-      mockSearchParams as unknown as ReadonlyURLSearchParams
-    );
-
+  it('renders every tab and its icon', () => {
+    setInitialTab('images');
     render(<HomeTabs />);
 
     tabs.forEach((tab) => {
-      expect(screen.getByText(tab.label)).toBeInTheDocument();
+      const button = screen.getByText(tab.label).closest('button');
+      expect(button).toBeInTheDocument();
+      expect(button?.querySelector('svg')).toBeInTheDocument();
     });
   });
 
-  it('should have "images" tab active by default when no tab is in params', () => {
-    const mockSearchParams = new URLSearchParams();
-    mockUseSearchParams.mockReturnValue(
-      mockSearchParams as unknown as ReadonlyURLSearchParams
-    );
-
+  it('uses images as the default active tab', () => {
+    setInitialTab();
     render(<HomeTabs />);
 
-    const imagesTab = screen.getByText('Biblioteca de imagens');
-    const devicesTab = screen.getByText('Dispositivos');
-
-    expect(imagesTab.closest('button')).toHaveClass('border-b-primary');
-    expect(devicesTab.closest('button')).not.toHaveClass('border-b-primary');
-  });
-
-  it('should show the correct tab as active based on URL parameter', () => {
-    const mockSearchParams = new URLSearchParams();
-    mockSearchParams.set('tab', 'devices');
-    mockUseSearchParams.mockReturnValue(
-      mockSearchParams as unknown as ReadonlyURLSearchParams
-    );
-
-    render(<HomeTabs />);
-
-    const devicesTab = screen.getByText('Dispositivos');
-    const imagesTab = screen.getByText('Biblioteca de imagens');
-
-    expect(devicesTab.closest('button')).toHaveClass('border-b-primary');
-    expect(imagesTab.closest('button')).not.toHaveClass('border-b-primary');
-  });
-
-  it('should call push with correct parameter when a tab is clicked', () => {
-    const mockSearchParams = new URLSearchParams();
-    mockSearchParams.set('tab', 'images');
-    mockUseSearchParams.mockReturnValue(
-      mockSearchParams as unknown as ReadonlyURLSearchParams
-    );
-
-    render(<HomeTabs />);
-
-    const devicesTab = screen.getByText('Dispositivos');
-    fireEvent.click(devicesTab);
-
-    expect(mockPush).toHaveBeenCalledWith('?tab=devices');
-  });
-
-  it('should preserve other URL parameters when changing tabs', () => {
-    const mockSearchParams = new URLSearchParams();
-    mockSearchParams.set('tab', 'images');
-    mockSearchParams.set('search', 'natureza');
-    mockSearchParams.set('page', '2');
-    mockUseSearchParams.mockReturnValue(
-      mockSearchParams as unknown as ReadonlyURLSearchParams
-    );
-
-    render(<HomeTabs />);
-
-    const devicesTab = screen.getByText('Dispositivos');
-    fireEvent.click(devicesTab);
-
-    expect(mockPush).toHaveBeenCalledWith(
-      '?tab=devices&search=natureza&page=2'
+    expect(
+      screen.getByText('Biblioteca de imagens').closest('button')
+    ).toHaveClass('border-b-primary');
+    expect(screen.getByText('Dispositivos').closest('button')).not.toHaveClass(
+      'border-b-primary'
     );
   });
 
-  it('should apply correct classes for active and inactive tabs', () => {
-    const mockSearchParams = new URLSearchParams();
-    mockSearchParams.set('tab', 'images');
-    mockUseSearchParams.mockReturnValue(
-      mockSearchParams as unknown as ReadonlyURLSearchParams
-    );
-
+  it('uses the URL tab as the initial active tab', () => {
+    setInitialTab('devices');
     render(<HomeTabs />);
 
-    const activeTab = screen.getByText('Biblioteca de imagens');
-    const inactiveTab = screen.getByText('Dispositivos');
-
-    expect(activeTab.closest('button')).toHaveClass('border-b-primary');
-    expect(activeTab.closest('button')).toHaveClass('text-primary');
-    expect(inactiveTab.closest('button')).not.toHaveClass('border-b-primary');
-    expect(inactiveTab.closest('button')).toHaveClass('text-muted-foreground');
+    expect(screen.getByText('Dispositivos').closest('button')).toHaveClass(
+      'border-b-primary'
+    );
   });
 
-  it('should render icons correctly', () => {
-    const mockSearchParams = new URLSearchParams();
-    mockSearchParams.set('tab', 'images');
-    mockUseSearchParams.mockReturnValue(
-      mockSearchParams as unknown as ReadonlyURLSearchParams
-    );
-
+  it('updates the URL locally without a server navigation', () => {
+    setInitialTab('images');
     render(<HomeTabs />);
 
-    const buttons = screen.getAllByRole('button');
-    expect(buttons.length).toBe(tabs.length);
+    fireEvent.click(screen.getByText('Dispositivos'));
 
-    buttons.forEach((button) => {
-      const svg = button.querySelector('svg');
-      expect(svg).toBeInTheDocument();
+    expect(window.location.search).toBe('?tab=devices');
+    expect(screen.getByText('Dispositivos').closest('button')).toHaveClass(
+      'border-b-primary'
+    );
+  });
+
+  it('preserves unrelated URL parameters when changing tabs', () => {
+    window.history.replaceState(null, '', '?tab=images&search=natureza&page=2');
+    setInitialTab('images');
+    render(<HomeTabs />);
+
+    fireEvent.click(screen.getByText('Dispositivos'));
+
+    expect(window.location.search).toBe('?tab=devices&search=natureza&page=2');
+  });
+
+  it('switches between content already loaded in memory', () => {
+    setInitialTab('images');
+    render(
+      <HomeTabs
+        imagesContent={<div>Biblioteca carregada</div>}
+        devicesContent={<div>Dispositivos carregados</div>}
+      />
+    );
+
+    expect(screen.getByText('Biblioteca carregada')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('Dispositivos'));
+    expect(screen.getByText('Dispositivos carregados')).toBeInTheDocument();
+    expect(screen.queryByText('Biblioteca carregada')).not.toBeInTheDocument();
+  });
+
+  it('synchronizes the active tab when navigating browser history', () => {
+    setInitialTab('images');
+    render(<HomeTabs />);
+
+    act(() => {
+      window.history.pushState(null, '', '?tab=devices');
+      window.dispatchEvent(new PopStateEvent('popstate'));
     });
-  });
 
-  it('should handle empty URL parameters', () => {
-    const mockSearchParams = new URLSearchParams();
-    mockUseSearchParams.mockReturnValue(
-      mockSearchParams as unknown as ReadonlyURLSearchParams
+    expect(screen.getByText('Dispositivos').closest('button')).toHaveClass(
+      'border-b-primary'
     );
-
-    render(<HomeTabs />);
-
-    const devicesTab = screen.getByText('Dispositivos');
-    fireEvent.click(devicesTab);
-
-    expect(mockPush).toHaveBeenCalledWith('?tab=devices');
-  });
-
-  it('should update active tab when URL parameters change', () => {
-    let mockSearchParams = new URLSearchParams();
-    mockSearchParams.set('tab', 'images');
-    mockUseSearchParams.mockReturnValue(
-      mockSearchParams as unknown as ReadonlyURLSearchParams
-    );
-
-    const { rerender } = render(<HomeTabs />);
-
-    let imagesTab = screen.getByText('Biblioteca de imagens');
-    expect(imagesTab.closest('button')).toHaveClass('border-b-primary');
-
-    mockSearchParams = new URLSearchParams();
-    mockSearchParams.set('tab', 'devices');
-    mockUseSearchParams.mockReturnValue(
-      mockSearchParams as unknown as ReadonlyURLSearchParams
-    );
-
-    rerender(<HomeTabs />);
-
-    const devicesTab = screen.getByText('Dispositivos');
-    imagesTab = screen.getByText('Biblioteca de imagens');
-
-    expect(devicesTab.closest('button')).toHaveClass('border-b-primary');
-    expect(imagesTab.closest('button')).not.toHaveClass('border-b-primary');
   });
 });

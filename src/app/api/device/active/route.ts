@@ -1,14 +1,20 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { isAgentAuthorized } from '@/src/lib/agent-auth';
 import { prisma } from '@/src/lib/prisma';
-import { NextResponse } from 'next/server';
 
-export const GET = async () => {
+export const GET = async (request: NextRequest) => {
+  if (!isAgentAuthorized(request)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const device = await prisma.device.findFirst({
-    where: { isActive: true },
+    where: {
+      isActive: true,
+      userId: { not: null },
+    },
     include: {
       selectedFolder: {
-        include: {
-          images: true,
-        },
+        include: { images: true },
       },
     },
   });

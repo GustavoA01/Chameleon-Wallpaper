@@ -1,14 +1,26 @@
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 export const useHomeTabs = () => {
-  const { push } = useRouter();
   const searchParams = useSearchParams();
-  const activeTab = searchParams.get('tab') || 'images';
+  const currentParam = searchParams.get('tab') || 'images';
+  const [activeTab, setActiveTab] = useState(currentParam);
+
+  useEffect(() => {
+    const syncTabFromUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      setActiveTab(params.get('tab') || 'images');
+    };
+
+    window.addEventListener('popstate', syncTabFromUrl);
+    return () => window.removeEventListener('popstate', syncTabFromUrl);
+  }, []);
 
   const setSearchParams = (tabValue: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(window.location.search);
     params.set('tab', tabValue);
-    push(`?${params.toString()}`);
+    window.history.pushState(null, '', `?${params.toString()}`);
+    setActiveTab(tabValue);
   };
 
   const activedColor = (value: string) =>

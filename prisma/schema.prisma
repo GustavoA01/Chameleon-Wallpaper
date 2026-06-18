@@ -7,41 +7,82 @@ datasource db {
   url      = env("DATABASE_PRISMA_DATABASE_URL")
 }
 
+model User {
+  id           String             @id @default(uuid())
+  email        String             @unique
+  passwordHash String
+  createdAt    DateTime           @default(now())
+  folders      Folder[]
+  devices      Device[]
+  sessions     Session[]
+  commands     WallpaperCommand[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
 model Folder {
   id          String   @id @default(uuid())
   name        String
   description String?
   createdAt   DateTime @default(now())
-  
-  images      Image[]
-  devices     Device[]
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  images  Image[]
+  devices Device[]
+
+  @@index([userId])
 }
 
 model Image {
   id       String @id @default(uuid())
   title    String
   url      String
-  publicId  String
+  publicId String
   folderId String
   folder   Folder @relation(fields: [folderId], references: [id], onDelete: Cascade)
+
+  @@index([folderId])
 }
 
 model Device {
-  id               String  @id @default(uuid())
-  name             String
-  isActive         Boolean @default(false)
-  intervalSeconds  Int     @default(3600)
-  
+  id              String  @id @default(uuid())
+  name            String
+  isActive        Boolean @default(false)
+  intervalSeconds Int     @default(3600)
+
   selectedFolderId String
-  selectedFolder   Folder  @relation(fields: [selectedFolderId], references: [id], onDelete: Cascade)
+  selectedFolder   Folder             @relation(fields: [selectedFolderId], references: [id], onDelete: Cascade)
+  userId           String?
+  user             User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  commands         WallpaperCommand[]
+
+  @@index([userId])
 }
+
 model WallpaperCommand {
-  id          String    @id @default(uuid())
-  type        String
-  url         String?
-  interval    Int?
-  resetTimer  Boolean   @default(false)
-  deviceId    String?
-  createdAt   DateTime  @default(now())
-  consumedAt  DateTime?
+  id         String    @id @default(uuid())
+  type       String
+  url        String?
+  interval   Int?
+  resetTimer Boolean   @default(false)
+  deviceId   String?
+  device     Device?   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  userId     String?
+  user       User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+  consumedAt DateTime?
+
+  @@index([userId, consumedAt, createdAt])
+  @@index([deviceId])
 }

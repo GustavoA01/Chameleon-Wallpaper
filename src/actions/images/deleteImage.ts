@@ -1,5 +1,7 @@
 'use server';
+
 import { prisma } from '@/src/lib/prisma';
+import { requireUser } from '@/src/lib/auth';
 import { v2 as cloudinary } from 'cloudinary';
 import { revalidatePath } from 'next/cache';
 
@@ -11,11 +13,24 @@ cloudinary.config({
 
 export async function deleteImage(imageId: string, publicId: string) {
   try {
+    const user = await requireUser();
+    const image = await prisma.image.findFirst({
+      where: {
+        id: imageId,
+        folder: { userId: user.id },
+      },
+    });
+
+    if (!image || image.publicId !== publicId) {
+      throw new Error('Imagem não encontrada');
+    }
+
     const deletedImage = await prisma.image.delete({
       where: { id: imageId },
     });
+
     await cloudinary.uploader.destroy(publicId);
-    revalidatePath(`/folder/[id]`, 'page');
+    revalidatePath('/folder/[id]', 'page');
 
     return deletedImage;
   } catch (error) {
