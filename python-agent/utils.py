@@ -2,14 +2,18 @@ import ctypes
 import os
 import threading
 import time
+import uuid
+from pathlib import Path
 
 import requests
 import winreg
 
+BASE_DIR = Path(__file__).resolve().parent
 current_interval = 60
 timer_reset_event = threading.Event()
 stop_loop_event = threading.Event()
 loop_running = False
+current_wallpaper_path = None
 
 
 def get_app_url():
@@ -35,14 +39,31 @@ def set_wallpaper_style():
     winreg.CloseKey(key)
 
 
+def cleanup_old_wallpapers(keep_path: str):
+    keep = Path(keep_path).resolve()
+
+    for path in BASE_DIR.glob("wallpaper*.jpg"):
+        if path.resolve() == keep:
+            continue
+
+        try:
+            path.unlink(missing_ok=True)
+        except OSError as error:
+            print(f"Nao foi possivel remover wallpaper antigo {path.name}: {error}")
+
+
 def download_image(url: bytes):
-    file_name = "wallpaper.jpg"
-    with open(file_name, "wb") as f:
-        f.write(url)
+    global current_wallpaper_path
+
+    file_path = BASE_DIR / f"wallpaper_{uuid.uuid4().hex}.jpg"
+    file_path.write_bytes(url)
 
     set_wallpaper_style()
-    image_path = os.path.abspath(file_name)
+    image_path = str(file_path.resolve())
     ctypes.windll.user32.SystemParametersInfoW(20, 0, image_path, 3)
+
+    current_wallpaper_path = image_path
+    threading.Timer(2.0, cleanup_old_wallpapers, args=(image_path,)).start()
 
 
 def apply_wallpaper_url(image_url: str):
