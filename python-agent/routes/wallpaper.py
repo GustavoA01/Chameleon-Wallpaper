@@ -51,6 +51,14 @@ def stop_loop():
     return jsonify({"message": "Loop parado"}), 200
 
 
+@wallpaper_bp.route("/check_now", methods=["POST"])
+def check_now():
+    # Acorda o loop imediatamente para buscar comandos pendentes no site,
+    # sem esperar o proximo ciclo de polling.
+    reset_loop_timer()
+    return jsonify({"message": "Verificacao de comandos disparada"}), 200
+
+
 @wallpaper_bp.route("/select_image", methods=["POST"])
 def select_image():
     body = request.get_json()

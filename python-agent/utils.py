@@ -26,7 +26,7 @@ def get_agent_headers():
 
 
 def get_command_poll_seconds():
-    return int(os.getenv("CHAMELEON_COMMAND_POLL_SECONDS", "5"))
+    return int(os.getenv("CHAMELEON_COMMAND_POLL_SECONDS", "60"))
 
 
 def set_wallpaper_style():

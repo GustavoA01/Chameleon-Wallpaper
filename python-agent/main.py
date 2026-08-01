@@ -2,7 +2,7 @@ from pathlib import Path
 import os
 import sys
 
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -42,6 +42,15 @@ from routes.wallpaper import start_configured_loop, wallpaper_bp
 
 app = Flask(__name__)
 CORS(app)
+
+
+@app.after_request
+def allow_private_network(response):
+    # Permite que o site em producao (HTTPS) chame o agente em localhost
+    if request.headers.get("Access-Control-Request-Private-Network") == "true":
+        response.headers["Access-Control-Allow-Private-Network"] = "true"
+    return response
+
 
 app.register_blueprint(wallpaper_bp)
 start_configured_loop()

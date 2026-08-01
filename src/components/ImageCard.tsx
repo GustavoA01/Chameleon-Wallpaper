@@ -4,6 +4,7 @@ import { deleteImage } from '../actions/images/deleteImage';
 import { Button } from './ui/button';
 import { Trash } from 'lucide-react';
 import { selectImage } from '../actions/wallpaper/selectImage';
+import { pokeAgent } from '../lib/agent-client';
 import { motion } from 'motion/react';
 import { ImageCardProps } from '../data/types/components';
 import { toast } from 'sonner';
@@ -18,6 +19,7 @@ export const ImageCard = ({
   const onSelectImage = async () => {
     try {
       await selectImage(url);
+      pokeAgent();
       toast.success('Imagem selecionada');
     } catch (error) {
       console.error('Error selecting image:', error);

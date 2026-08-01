@@ -124,7 +124,7 @@ Crie um arquivo `.env` dentro de `python-agent/` (mesma pasta do `main.py`) com:
 
 ```env
 CHAMELEON_APP_URL=http://localhost:3000
-CHAMELEON_COMMAND_POLL_SECONDS=5
+CHAMELEON_COMMAND_POLL_SECONDS=60
 CHAMELEON_DEVICE_ID=
 ```
 

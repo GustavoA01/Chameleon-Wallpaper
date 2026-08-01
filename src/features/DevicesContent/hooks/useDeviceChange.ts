@@ -4,6 +4,7 @@ import { startLoop } from '@/src/actions/wallpaper/startLoop';
 import { stopLoop } from '@/src/actions/wallpaper/stopLoop';
 import { updateInterval } from '@/src/actions/wallpaper/updateInterval';
 import { DeviceType } from '@/src/data/types';
+import { pokeAgent } from '@/src/lib/agent-client';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -39,6 +40,7 @@ export const useDeviceChange = (
           return;
         }
 
+        pokeAgent();
         toast.success('Próxima imagem selecionada');
       },
       onError: () => {
@@ -68,6 +70,7 @@ export const useDeviceChange = (
     const intervalSeconds = parseInt(time);
     await updateDeviceFn({ intervalSeconds });
     await updateInterval(intervalSeconds);
+    pokeAgent();
   };
 
   const onActiveChange = async (checked: boolean) => {
